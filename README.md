@@ -1,399 +1,443 @@
-# Python do Zero — Roteiro da Aula (150 minutos)
+# Java do Zero — site da aula + roteiro completo
 
-Este arquivo é o seu **roteiro de professor**. Ele foi escrito para quem ainda não domina o conteúdo: está tudo mastigado, com as **falas prontas** (o que dizer), o que **mostrar na tela** e o que **perguntar** para a turma.
+Este projeto é um site **100% HTML, CSS e JavaScript puro** (sem frameworks,
+sem build) para você apresentar em uma aula introdutória de Java de
+**150 minutos**. Tem duas páginas:
 
-> Leia como se estivesse conversando. As falas em _itálico entre aspas_ são sugestões do que você pode dizer — adapte com suas palavras, fique à vontade.
+- `index.html` — o conteúdo da aula, organizado por tópicos no menu lateral,
+  com explicações curtas e "consoles de código" para os alunos acompanharem.
+- `quiz.html` — um quiz de 12 perguntas (com trechos de código) para fechar a
+  aula testando o que os alunos aprenderam.
 
----
+Como abrir: basta abrir o arquivo `index.html` no navegador, ou rodar
+`npm run dev` (ou `pnpm dev`) que sobe um servidor local na porta 3000.
 
-## Antes de começar (checklist rápido)
+Abaixo está o **roteiro completo da aula**, escrito para você ler/parafrasear
+mesmo sem dominar o assunto ainda. Ele traz exatamente o que falar, o que
+perguntar para a turma e uma "cola" explicando o conceito por trás de cada
+parte, para você se sentir seguro(a) na frente da sala.
 
-- [ ] Abra o site (`index.html`) no navegador e deixe no telão.
-- [ ] Teste o menu lateral: clicar em cada item rola a página até o tópico.
-- [ ] Deixe o **Quiz final** para o fim da aula.
-- [ ] Tenha água por perto: 150 minutos é bastante tempo de fala. 🙂
-- [ ] Lembre-se: **você não precisa ser um expert**. Basta ir junto com os alunos, lendo o código e a saída do console na tela.
-
-### Como o site te ajuda
-Cada tópico tem um **console preto** mostrando o código Python e, logo abaixo, a **saída** que ele produz. A dinâmica da aula toda é a mesma:
-1. Você lê o código em voz alta.
-2. Pergunta para a turma: _"o que vocês acham que vai aparecer?"_
-3. Só depois mostra a saída no console.
-
-Isso mantém a turma pensando junto e não só ouvindo.
+> Dica: leia o roteiro inteiro uma vez antes da aula. Você não precisa decorar
+> as falas — use-as como guia e fale com suas próprias palavras.
 
 ---
 
-## Mapa do tempo (150 min)
+## Visão geral do tempo (150 minutos)
 
-| Bloco | Tópico | Tempo |
-|------:|--------|:-----:|
-| 0 | Abertura e boas-vindas | 5 min |
-| 1 | O que é Python | 8 min |
-| 2 | print e comentários | 10 min |
-| 3 | Variáveis e tipos | 12 min |
-| 4 | Entrada de dados (input) | 10 min |
-| 5 | Operadores | 12 min |
-| — | **Pausa curta** | 5 min |
-| 6 | Condições (if / elif / else) | 13 min |
-| 7 | Laços (for / while) | 15 min |
-| 8 | Listas | 12 min |
-| 9 | Matrizes bidimensionais (S16) | 15 min |
-| 10 | Funções (S17) | 14 min |
-| 11 | Documentação, testes e depuração (S18) | 10 min |
-| ? | Quiz final | 14 min |
-| — | Fechamento | 5 min |
-
-Se o tempo apertar, os blocos que dá para encurtar são o **5 (Operadores)** e o **8 (Listas)**. Os blocos de **matrizes, funções e testes** são o coração da aula (é para onde a matéria estava indo), então proteja o tempo deles.
+| Bloco | Assunto                     | Tempo  |
+| ----- | ---------------------------- | ------ |
+| 1     | Abertura                     | 5 min  |
+| 2     | O que é Java                 | 15 min |
+| 3     | Estrutura de um programa     | 10 min |
+| 4     | Variáveis e tipos de dados   | 15 min |
+| 5     | Operadores                   | 10 min |
+| 6     | Estruturas condicionais      | 15 min |
+| 7     | Laços de repetição           | 15 min |
+| 8     | Vetores (arrays)             | 10 min |
+| 9     | Métodos                      | 15 min |
+| 10    | Classes e objetos            | 15 min |
+| 11    | Quiz no site                 | 20 min |
+| 12    | Encerramento                 | 5 min  |
 
 ---
 
-## Bloco 0 — Abertura (5 min)
+## Bloco 1 — Abertura (5 min)
 
-> _"Bom dia, pessoal! Tudo certo com vocês? Hoje a nossa aula vai ser um pouquinho diferente: a gente vai começar do absoluto zero em Python e, no fim, vocês vão ver que já conseguem entender coisas que pareciam complicadas, como matrizes, funções e até testes de código."_
+**O que falar:**
 
-> _"A ideia não é decorar nada. É a gente ler código junto, pensar no que vai acontecer e conferir na tela. Programar é muito mais sobre pensar do que sobre decorar."_
+> "Bom dia, gente! Hoje a gente vai começar do absoluto zero em Java — se
+> vocês nunca escreveram uma linha de código, tranquilo, é exatamente pra
+> isso que essa aula existe. A ideia é que, no final dessas duas horas e meia,
+> vocês consigam ler um programa em Java e entender o que ele faz.
+>
+> A gente vai ver: o que é Java, como um programa é organizado, variáveis,
+> operadores, decisões (if/else), repetições (loops), vetores, métodos e uma
+> pitada de orientação a objetos — que é o jeito como o Java organiza o
+> código. No final, tem um quiz rapidinho pra gente ver o que ficou."
 
-> _"Ah, e no final tem um quiz. Não vale nota de castigo, viu? É só pra gente ver o quanto pegou. E eu já aviso: as respostas são parecidas de propósito, então vão ter que LER o código com atenção."_
+**Pergunta para abrir a turma:**
 
-**Mostre na tela:** a página inicial do site, com os números "11 tópicos, 16 perguntas, 150 minutos".
-
-**Pergunte:** _"Alguém aqui já programou alguma coisa antes? Nem que seja mexer numa fórmula de planilha?"_ — isso ajuda a medir a turma.
-
----
-
-## Bloco 1 — O que é Python (8 min)
-
-**Mostre:** tópico **"01 · O que é Python"**.
-
-> _"Python é uma linguagem de programação. Traduzindo: é um jeito de dar ordens para o computador usando um texto que a gente consegue ler quase como português."_
-
-> _"O computador lê o nosso código de cima para baixo, uma linha de cada vez, e faz exatamente o que está escrito — nem mais, nem menos. Ele é obediente e burro ao mesmo tempo: faz certinho o que você mandou, mesmo que você tenha mandado errado."_
-
-> _"A gente usa Python pra um monte de coisa: analisar dados, criar sites, automatizar tarefas chatas e até inteligência artificial."_
-
-**Aponte para o console** com o `print("Olá! Bem-vindos ao Python")`.
-
-> _"Olha esse primeiro programa. Ele tem uma linha só que faz alguma coisa. O que vocês acham que ele vai mostrar na tela?"_
-
-Espere respostas, e então mostre a saída.
-
-> _"Isso! Ele mostra o texto. Guardem essa palavra: `print`. É o comando de 'mostrar na tela'. A gente vai usar ela o tempo todo."_
+- "Levanta a mão quem já ouviu falar de Java antes — de programação mesmo,
+  não a ilha ou o café." *(Vai gerar risada e quebra o gelo.)*
+- "E quem já programou em qualquer linguagem, mesmo que só um pouquinho?"
 
 ---
 
-## Bloco 2 — print e comentários (10 min)
+## Bloco 2 — O que é Java (15 min)
 
-**Mostre:** tópico **"02 · print e comentários"**.
+**Cola pra você entender antes de explicar:**
 
-> _"O `print` mostra na tela o que estiver dentro dos parênteses. Se estiver entre aspas, é um TEXTO — sai exatamente do jeito que está escrito."_
+Java não roda "direto" no computador como alguns outros programas. O código
+que a gente escreve (arquivo `.java`) passa por um **compilador** (o `javac`)
+que transforma esse texto em algo chamado **bytecode** (arquivo `.class`).
+Esse bytecode é executado por uma "máquina virtual", a **JVM** — que existe
+para Windows, Linux, Mac etc. Por isso existe a frase clássica do Java:
+"escreva uma vez, rode em qualquer lugar".
 
-Leia o exemplo linha por linha:
+Três siglas que sempre confundem, explique assim:
 
-> _"Repara que cada `print` pula pra linha de baixo sozinho. Não precisa mandar 'pular linha', ele já faz."_
+- **JDK** = o kit completo pra *desenvolver* (tem o compilador dentro).
+- **JRE** = o ambiente só pra *executar* programas já prontos.
+- **JVM** = a "máquina" que de fato lê e roda o bytecode.
 
-> _"Agora essa terceira linha é interessante: `print("Soma:", 2 + 3)`. Antes de mostrar, o Python faz a conta. O que ele vai mostrar?"_
+**O que falar:**
 
-**Pergunte e espere.** A resposta é `Soma: 5`.
+> "Java é uma linguagem criada nos anos 90, hoje mantida pela Oracle, e é
+> usada em banco, em sistema de empresa, em app de Android, em quase tudo que
+> não vemos mas que sustenta sistemas grandes.
+>
+> Agora, uma coisa importante: quando a gente escreve um arquivo `.java`,
+> o computador não entende esse texto direto. Existe uma etapa no meio: o
+> compilador do Java (chamado `javac`) transforma esse texto em um arquivo
+> `.class`, que é o chamado bytecode. Depois, uma 'máquina virtual' — a JVM —
+> lê esse bytecode e executa ele no seu sistema, seja Windows, Linux ou Mac.
+>
+> É por isso que existe aquela frase famosa: 'escreve uma vez, roda em
+> qualquer lugar'. Você compila seu código uma vez, e ele roda em qualquer
+> computador que tenha a JVM instalada."
 
-> _"Perfeito. O texto 'Soma:' sai como texto, mas o `2 + 3` vira 5, porque não está entre aspas. Essa é a diferença: aspas = texto literal; sem aspas = o Python calcula."_
+**Perguntas para fazer à turma:**
 
-Agora os comentários:
+- "Por que vocês acham que faz sentido ter essa etapa de compilação, em vez
+  do computador simplesmente ler o texto do jeito que a gente escreveu?"
+- "Alguém sabe me dizer uma linguagem que NÃO precisa desse passo de
+  compilação, que roda o código linha por linha?" *(Se ninguém souber, cite
+  Python ou JavaScript como exemplos de linguagens interpretadas.)*
 
-> _"Viram aquele `#`? Tudo que vem depois dele o Python IGNORA. Serve pra gente deixar recadinho pra outro humano ler, tipo uma anotação na margem do caderno. Não muda em nada o que o programa faz."_
-
-**Pergunte:** _"Pra que vocês acham que serve escrever uma anotação que o computador ignora?"_ (Resposta que você quer ouvir: pra lembrar depois o que o código faz, ou pra outra pessoa entender.)
-
----
-
-## Bloco 3 — Variáveis e tipos (12 min)
-
-**Mostre:** tópico **"03 · Variáveis e tipos"**.
-
-> _"Agora um dos conceitos mais importantes de todos: variável. Pensem numa caixa com etiqueta. A etiqueta é o nome, e dentro da caixa tem um valor."_
-
-Escreva no ar ou aponte: `nome = "Ana"`.
-
-> _"Esse sinal de igual aqui NÃO é 'igual' da matemática. Ele quer dizer 'guarde'. Leia assim: 'guarde o texto Ana dentro da caixa chamada nome'."_
-
-> _"Depois, toda vez que eu escrever `nome`, o Python vai lá na caixa e pega o valor de volta."_
-
-Agora os tipos:
-
-> _"Cada valor tem um tipo. Os quatro que mais aparecem são:"_
-> - _"**str** — texto, sempre entre aspas, tipo `"Ana"`."_
-> - _"**int** — número inteiro, sem vírgula, tipo `18`."_
-> - _"**float** — número com casas decimais. Detalhe: em programação a gente usa PONTO, não vírgula. Então é `1.75`."_
-> - _"**bool** — só dois valores possíveis: `True` (verdadeiro) ou `False` (falso)."_
-
-**Pergunte, um por um** (ótimo pra fixar):
-- _"A idade `18` é que tipo?"_ → int
-- _"A altura `1.75`?"_ → float
-- _"O nome `"Ana"`?"_ → str (texto)
-
-> _"No console eu uso um comando chamado `type()` só pra provar pra vocês qual é o tipo de cada coisa. Olhem a saída."_
+**Ação no site:** abra o tópico **"01 · O que é Java"** e mostre o console
+com os comandos `javac` e `java`.
 
 ---
 
-## Bloco 4 — Entrada de dados / input (10 min)
+## Bloco 3 — Estrutura de um programa (10 min)
 
-**Mostre:** tópico **"04 · Entrada de dados"**.
+**Cola pra você entender antes de explicar:**
 
-> _"Até agora o programa só falava sozinho. Agora ele vai PERGUNTAR pra pessoa. Isso é o `input`."_
+Todo programa Java precisa de uma classe, e dentro dela, de um método
+`main` — é o "ponto de partida" que a JVM procura para começar a rodar o
+programa. Sem esse método, o programa simplesmente não roda.
 
-> _"Quando o Python chega num `input`, ele para tudo e espera a pessoa digitar e apertar Enter. Só depois continua."_
+**O que falar:**
 
-Aponte a **pegadinha mais importante do dia**:
+> "Todo programa em Java começa dentro de uma classe. Não se preocupem agora
+> com o que é 'classe' de verdade, isso a gente vê mais pra frente — por
+> enquanto, pensem nela como uma caixa que guarda o nosso código.
+>
+> Dentro dessa caixa, tem uma linha muito específica que sempre aparece:
+> `public static void main(String[] args)`. É dentro dela que o programa
+> começa a rodar de fato. Se essa linha não existir, o Java nem sabe por onde
+> começar.
+>
+> E toda instrução em Java termina com ponto e vírgula — é a forma da
+> linguagem saber onde uma frase de código termina e a outra começa."
 
-> _"Aqui tem um detalhe que pega MUITA gente, prestem atenção: o `input` SEMPRE devolve texto. Sempre. Mesmo que a pessoa digite um número, pro Python aquilo é texto."_
+**Perguntas para fazer à turma:**
 
-> _"Por isso, quando eu quero mesmo um número, eu envolvo com `int(...)`, que converte o texto pra número inteiro. Olhem: `idade = int(input("Sua idade: "))`."_
+- "Olhando esse código no console, alguém consegue adivinhar o que a linha
+  `System.out.println(...)` faz, só pelo nome?"
+- "O que vocês acham que aconteceria se eu esquecesse o ponto e vírgula no
+  final de uma linha?"
 
-**Pergunte:** _"Se eu ESQUECER o `int` e tentar fazer `idade + 1`, o que vocês acham que acontece?"_
-
-> _"Dá erro! Porque não dá pra somar texto com número. É como tentar somar a palavra 'vinte' com o número 1. O Python trava."_
-
-Guarde essa ideia — ela volta no **quiz (pergunta do `x + x`)**.
-
----
-
-## Bloco 5 — Operadores (12 min)
-
-**Mostre:** tópico **"05 · Operadores"**.
-
-> _"Operadores são os símbolos de fazer conta e de comparar. Soma, subtração, multiplicação vocês já conhecem. Vou focar em dois que confundem todo mundo no começo."_
-
-Aponte no console:
-
-> _"O `/` sozinho é a divisão normal: `7 / 2` dá `3.5`."_
-
-> _"Agora o `//` com duas barras é a **divisão inteira**: ele joga fora a parte decimal e fica só com a parte inteira. Então `7 // 2` dá `3`, não `3.5`."_
-
-> _"E o `%`, que a gente chama de 'módulo', dá o **resto** da divisão. `7 % 2`: 2 cabe 3 vezes no 7 (dá 6) e sobra 1. Então `7 % 2` é `1`."_
-
-**Pergunte (rápido, no ritmo):**
-- _"Quanto é `10 // 3`?"_ → 3
-- _"E o resto, `10 % 3`?"_ → 1
-- _"`10 % 2`?"_ → 0 (e aproveite: _"quando o resto por 2 dá zero, o número é PAR. Guardem isso, é um truque clássico.")_
-
-Depois as comparações:
-
-> _"Essas aqui sempre respondem com `True` ou `False`: `==` é 'é igual?', `!=` é 'é diferente?', e aí tem maior, menor, etc. Isso vai ser a base das decisões, que é o próximo assunto."_
-
-> ⚠️ _"Detalhe que confunde: um `=` é 'guardar valor'. Dois `==` é 'perguntar se é igual'. Não são a mesma coisa!"_
+**Ação no site:** abra o tópico **"02 · Estrutura do programa"**, mostre o
+console com o "Ola, mundo!" e a saída embaixo dele.
 
 ---
 
-## ☕ Pausa curta (5 min)
+## Bloco 4 — Variáveis e tipos de dados (15 min)
 
-> _"Vamos respirar 5 minutinhos. Bebam uma água, estiquem as pernas. Quando voltar, a gente começa a fazer o programa TOMAR DECISÕES sozinho."_
+**Cola pra você entender antes de explicar:**
 
----
+Uma variável é uma "gaveta" com nome, que guarda um valor. Em Java, antes de
+guardar qualquer coisa nessa gaveta, você precisa dizer que TIPO de coisa vai
+guardar ali — número inteiro, número decimal, texto, verdadeiro/falso etc.
+Isso é diferente de linguagens como Python, que não exigem dizer o tipo antes.
 
-## Bloco 6 — Condições: if / elif / else (13 min)
+**O que falar:**
 
-**Mostre:** tópico **"06 · Condições (if / elif / else)"**.
+> "Pensem numa variável como uma gaveta com etiqueta. Antes de guardar algo
+> nela, em Java a gente precisa dizer o que vai guardar: um número inteiro,
+> um número com casas decimais, um texto, ou um verdadeiro/falso.
+>
+> Os tipos mais comuns são: `int` para números inteiros, `double` para
+> números com casas decimais, `boolean` para verdadeiro ou falso, `char`
+> para um único caractere, e `String` para texto.
+>
+> Uma pegadinha que confunde muita gente no início: aspas simples, como
+> `'A'`, é um `char`. Aspas duplas, como `\"A\"`, é uma `String`. Parece
+> bobagem, mas o compilador é bem rígido com isso."
 
-> _"Agora o programa vai escolher o que fazer dependendo de uma situação. É o `if`, que quer dizer 'se'."_
+**Perguntas para fazer à turma:**
 
-Leia o exemplo da nota:
+- "Se eu quiser guardar a idade de uma pessoa, qual tipo eu deveria usar:
+  `int` ou `double`? E se eu quiser guardar a altura dela?"
+- "Por que vocês acham que o Java 'obriga' a gente a dizer o tipo antes,
+  ao invés de simplesmente deixar guardar qualquer coisa?"
 
-> _"Leiam comigo: SE a nota for maior ou igual a 7, imprime 'Aprovado'. SENÃO, SE for maior ou igual a 5, imprime 'Recuperação'. SENÃO (todo o resto), imprime 'Reprovado'."_
-
-> _"`if` é 'se', `elif` é 'senão se' e `else` é 'senão'. Só UM desses blocos roda — o primeiro cuja condição for verdadeira."_
-
-**Ponto que você NÃO pode deixar passar — a indentação:**
-
-> _"Reparem no espaço em branco antes do `print`. Esse recuo se chama indentação, e em Python ele é OBRIGATÓRIO. É ele que diz 'essa linha está dentro do if'. Em outras linguagens é opcional; em Python, se errar o espaço, dá erro."_
-
-**Pergunte:** _"Se a nota fosse 4, o que ia aparecer?"_ → Reprovado. _"E se fosse 6?"_ → Recuperação.
-
-> Dica de professor: peça pra turma **mudar o valor da nota na cabeça** e prever a saída. É o melhor exercício de `if`.
-
----
-
-## Bloco 7 — Laços: for e while (15 min)
-
-**Mostre:** tópico **"07 · Laços (for e while)"**.
-
-> _"Imaginem que eu quero imprimir 'Oi' 100 vezes. Vou copiar e colar 100 prints? Claro que não. Pra isso existe o laço: repetir sem copiar."_
-
-**Primeiro o `for`:**
-
-> _"O `for` repete uma quantidade que a gente já sabe. Olhem o `range(1, 4)`: ele gera 1, 2 e 3. Prestem atenção: o último número NÃO entra. `range(1, 4)` vai até o 3."_
-
-**Pergunte:** _"Então `range(1, 4)` gera quais números?"_ → 1, 2, 3. Reforce: _"o 4 fica de fora, sempre."_ (Isso cai no quiz.)
-
-**Depois o `while`:**
-
-> _"O `while` repete ENQUANTO uma condição for verdadeira. Olhem o contador: ele começa em 3 e, a cada volta, diminui 1. Quando chega em 0, a condição `contador > 0` vira falsa e o laço para."_
-
-> ⚠️ _"Cuidado de vida com o `while`: se você esquecer de mudar a variável lá dentro, ele repete PARA SEMPRE e trava o programa. A gente chama isso de laço infinito."_
-
-**Pergunte:** _"O que acontece se eu tirar a linha `contador = contador - 1`?"_ → nunca para (laço infinito).
+**Ação no site:** abra o tópico **"03 · Variáveis e tipos"** e passe pelas
+5 variáveis do console junto com a turma, perguntando o tipo de cada uma
+antes de revelar.
 
 ---
 
-## Bloco 8 — Listas (12 min)
+## Bloco 5 — Operadores (10 min)
 
-**Mostre:** tópico **"08 · Listas"**.
+**Cola pra você entender antes de explicar:**
 
-> _"Até agora cada caixa guardava um valor só. A lista guarda VÁRIOS valores em ordem, dentro de colchetes `[ ]`, separados por vírgula."_
+Operadores fazem contas e comparações. Os alunos costumam travar no operador
+`%` (módulo), que devolve o RESTO de uma divisão, não o resultado da divisão.
+Por exemplo, `10 % 3` é `1`, porque 10 dividido por 3 dá 3 com resto 1.
 
-> _"Cada posição da lista tem um número, chamado índice. E aqui vem a coisa mais importante e mais esquecida: o índice **começa no ZERO**, não no 1."_
+**O que falar:**
 
-Aponte no console:
+> "Operadores são os símbolos que fazem contas e comparações no código. A
+> gente tem os aritméticos, que são a soma, subtração, multiplicação, divisão
+> e um que costuma confundir: o `%`, chamado de módulo, que devolve o RESTO
+> de uma divisão.
+>
+> Depois temos os operadores relacionais, que comparam dois valores e sempre
+> devolvem verdadeiro ou falso: maior que, menor que, igual, diferente. E
+> por fim os lógicos, que combinam condições: `&&` significa 'e', `||`
+> significa 'ou', e `!` inverte um valor."
 
-> _"Então na lista `["maçã", "uva", "pera"]`: a posição 0 é maçã, a posição 1 é uva, a posição 2 é pera."_
+**Perguntas para fazer à turma:**
 
-**Pergunte:** _"Qual é o `frutas[1]`?"_ → uva (não maçã!). Insista nisso, é o erro nº 1 de iniciante.
+- "Se eu fizer `10 % 3` no código, alguém arrisca qual número aparece?"
+  *(Deixe alguns tentarem antes de confirmar que é `1`.)*
+- "Qual a diferença entre usar um único `=` e um duplo `==` no código, na
+  opinião de vocês?" *(Gancho: `=` atribui um valor, `==` compara.)*
 
-> _"Dá pra perguntar o tamanho com `len()`, e adicionar um item no fim com `.append()`. Olhem como a lista cresce na saída."_
-
----
-
-## Bloco 9 — Matrizes bidimensionais (S16) (15 min)
-
-**Mostre:** tópico **"09 · Matrizes bidimensionais"**.
-
-> _"Agora a gente chega num dos assuntos que vocês vinham vendo: matrizes. Parece assustador, mas é simples: uma matriz é só uma **lista de listas**. É uma tabela, com linhas e colunas — igual uma planilha ou o tabuleiro de um jogo da velha."_
-
-Aponte a matriz com 2 linhas e 3 colunas:
-
-> _"Cada linha é uma lista. E a matriz inteira é uma lista que guarda essas linhas dentro dela."_
-
-> _"Pra pegar um valor, eu uso DOIS índices: primeiro a linha, depois a coluna. `matriz[0][2]`: linha 0 (a primeira), coluna 2 (a terceira). E lembrando: os dois começam no zero."_
-
-**Pergunte:** _"Quanto é `matriz[1][0]`?"_ → linha 1 (a segunda), coluna 0 (a primeira) = 4.
-
-**Agora os laços aninhados (Aula 2 da S16):**
-
-> _"Pra passar por TODOS os valores da matriz, a gente usa um `for` dentro do outro. O de fora anda pelas linhas; o de dentro, pelas casinhas de cada linha."_
-
-> _"No exemplo, os dois laços vão somando cada valor. É exatamente assim que se faz o 'total de uma planilha'. Olhem a saída: soma 10."_
-
-**Conecte com o miniprojeto deles:** _"Isso é a base da 'Planilha de vendas' que vocês viram: uma matriz com os números e laços aninhados pra somar tudo."_
+**Ação no site:** abra o tópico **"04 · Operadores"** e rode mentalmente o
+console linha por linha com a turma antes de revelar a explicação.
 
 ---
 
-## Bloco 10 — Funções (S17) (14 min)
+## Bloco 6 — Estruturas condicionais (15 min)
 
-**Mostre:** tópico **"10 · Funções e modularização"**.
+**Cola pra você entender antes de explicar:**
 
-> _"Função é um bloco de código com nome, que a gente escreve UMA vez e reaproveita quantas vezes quiser. É tipo uma receita: você escreve o passo a passo uma vez e depois é só dizer 'faz o bolo'."_
+`if/else` deixa o programa "escolher" um caminho baseado numa condição.
+`switch` é uma alternativa ao `if/else` quando existem várias opções fixas
+para comparar com o mesmo valor (tipo os dias da semana).
 
-Aponte a estrutura:
+**O que falar:**
 
-> _"A gente cria com `def`, dá um nome, e entre parênteses colocam os PARÂMETROS — que são as entradas da função. O `return` é o que ela DEVOLVE de resultado."_
+> "Até agora nosso código só faz uma coisa atrás da outra, sem tomar
+> decisão nenhuma. É aqui que entra o `if`: ele testa uma condição, e se ela
+> for verdadeira, executa um bloco de código; senão, executa outro bloco no
+> `else`.
+>
+> Existe também o `switch`, que é útil quando você tem uma variável e quer
+> comparar ela com várias opções fixas — por exemplo, o dia da semana. Cada
+> `case` é uma opção, e o `break` diz 'pode parar aqui, já achei o que
+> precisava'."
 
-> _"Olhem a `saudar(nome)`: eu chamo com `saudar("Ana")` e ela me devolve 'Olá, Ana'. A mesma função serve pra qualquer nome. Essa é a mágica: reaproveitar."_
+**Perguntas para fazer à turma:**
 
-**Pergunte:** _"Quanto seria `dobro(5)`?"_ → 10. _"E `dobro(100)`?"_ → 200. _"Viram? Uma função só, mil usos."_
+- "Olhando o código no console, se a variável `idade` fosse `15` em vez de
+  `20`, qual mensagem apareceria?"
+- "Por que vocês acham que existe o comando `break` dentro de cada `case`
+  do switch? O que aconteceria se a gente tirasse ele?"
 
-**Agora o escopo (Aula 2 da S17):**
-
-> _"Um detalhe importante: uma variável que nasce DENTRO da função só existe lá dentro. Do lado de fora, o Python nem sabe que ela existe."_
-
-> _"No exemplo do `escopo.py`, eu tento imprimir `resultado` fora da função e dá `NameError` — 'esse nome não existe'. É como uma anotação que você fez num papel e jogou fora: acabou a função, sumiu a variável."_
-
-**Conecte:** _"Modularizar é isso: quebrar o programão num monte de funçõezinhas organizadas, cada uma fazendo uma coisa. Fica mais fácil de ler e de consertar."_
-
----
-
-## Bloco 11 — Documentação, testes e depuração (S18) (10 min)
-
-**Mostre:** tópico **"11 · Documentação, testes e depuração"**.
-
-> _"Escrever o código é só metade do trabalho. A outra metade é garantir que ele funciona e continua funcionando depois que a gente mexe."_
-
-**Docstring:**
-
-> _"Docstring é um textinho entre três aspas, logo na primeira linha da função, explicando o que ela faz. Serve pra outra pessoa (ou você daqui a um mês) entender sem precisar ler o código todo."_
-
-**assert (teste simples):**
-
-> _"O `assert` é o nosso primeiro tipo de teste. Ele afirma 'isso TEM que ser verdade'. Se for, o programa segue quietinho. Se NÃO for, ele para na hora e acusa um `AssertionError`."_
-
-> _"Olhem: `assert somar(2, 3) == 5` passa numa boa. Já `assert somar(2, 2) == 5` é mentira (2+2 é 4, não 5), então ali o programa trava. Por isso o 'Todos os testes passaram' nunca aparece."_
-
-**Pergunte:** _"Pra que serve um teste que trava o programa quando dá errado?"_ (Resposta: pra descobrir o erro CEDO, antes do usuário descobrir.)
-
-**Depuração (debug):**
-
-> _"E quando algo dá errado e você não sabe por quê? A técnica mais simples do mundo, que todo programador usa até hoje: espalhar `print()` pelo código pra ver o valor das variáveis em cada ponto. Assim você descobre exatamente onde o problema aparece."_
-
-> _"Isso conecta com o kata TDD da Calculadora que vocês viram: escrever o teste, ver falhar, e ir consertando até passar."_
+**Ação no site:** abra o tópico **"05 · Condicionais"**, mude mentalmente o
+valor de `idade` com a turma antes de revelar a saída, depois mostre o
+exemplo de `switch`.
 
 ---
 
-## Quiz final (14 min)
+## Bloco 7 — Laços de repetição (15 min)
 
-**Mostre:** tópico **"? · Quiz final"** e clique em **"Começar o quiz"**.
+**Cola pra você entender antes de explicar:**
 
-> _"Chegou a hora da verdade! São 16 perguntas. Cada uma mostra um código Python e vocês vão dizer qual é a saída. Eu aviso de novo: as respostas são bem parecidas de propósito. Não adianta chutar a maior — tem que LER o código."_
+Loops evitam repetir código manualmente. `for` é melhor quando já se sabe
+quantas vezes repetir. `while` testa a condição ANTES de rodar o bloco.
+`do-while` testa a condição DEPOIS, então o bloco sempre roda pelo menos uma
+vez, mesmo que a condição já comece falsa.
 
-**Como conduzir (escolha um jeito):**
-- **Turma toda junto:** você lê o código no telão, deixa uns 20 segundos pra pensarem/votarem levantando a mão, e clica na resposta que a maioria escolheu. Aí aparece a explicação.
-- **Cada um no seu ritmo:** se tiverem computadores, mande abrir o site e responder sozinhos; o placar no topo mostra acertos.
+**O que falar:**
 
-> Sempre que aparecer a explicação amarela, **leia em voz alta** — é ali que a fixação acontece.
+> "Imagina que eu precisasse escrever `System.out.println` cinco vezes
+> seguidas pra imprimir os números de 0 a 4. Dá pra fazer, mas é chato e não
+> escala se eu quiser 1000 números. Pra isso existem os laços de repetição.
+>
+> O `for` é o mais usado quando a gente já sabe quantas vezes quer repetir —
+> ele tem três partes: onde a variável começa, até quando ela vai, e como
+> ela muda a cada volta.
+>
+> O `while` repete enquanto uma condição for verdadeira, testada sempre
+> antes de rodar o bloco. Já o `do-while` é parecido, mas testa a condição
+> DEPOIS — então o bloco roda pelo menos uma vez, não importa o quê."
 
-### 🔑 Gabarito comentado (só para você, professor)
+**Perguntas para fazer à turma:**
 
-Guarde esta cola. A resposta certa é sempre a **primeira opção do código**, mas na tela ela aparece embaralhada, então oriente-se pelo texto:
+- "No exemplo do `for` no console, quantas vezes o `println` vai rodar, e
+  quais números vão aparecer? Pensem antes de eu revelar."
+- "Em que situação vocês acham que um `do-while` seria mais útil que um
+  `while` normal?" *(Gancho: quando o bloco precisa rodar ao menos uma vez,
+  como pedir uma senha até acertar.)*
 
-| # | Tópico | Código | Resposta | Por quê (fale isso se errarem) |
-|--:|--------|--------|:--------:|--------------------------------|
-| 1 | print | `print("Olá", "mundo")` | `Olá mundo` | A vírgula no print coloca **um espaço** entre os itens. |
-| 2 | comentário | `print("A")` / `# print("B")` / `print("C")` | `A` e `C` | A linha com `#` é ignorada, o 'B' nunca imprime. |
-| 3 | tipos | `type(10)` | `<class 'int'>` | 10 é inteiro → tipo `int`. |
-| 4 | input | `x = input()` (digita 5) / `x + x` | `55` | input devolve **texto**; '5' + '5' junta os textos. |
-| 5 | operador | `9 // 2` | `4` | Divisão inteira joga fora a parte decimal (4.5 → 4). |
-| 6 | operador | `10 % 3` | `1` | Resto da divisão de 10 por 3. |
-| 7 | comparação | `5 != 5` | `False` | 5 é igual a 5, então "diferente" é falso. |
-| 8 | if/elif | x=5, `>10` / `>3` | `B` | Não é >10, mas é >3 → entra no elif. Só um bloco roda. |
-| 9 | for | `range(2, 5)` | `2 3 4` | O último número (5) **não** entra no range. |
-| 10 | while | n=2, `while n<=2` | `2` | Imprime uma vez; n vira 3 e o laço para. |
-| 11 | lista | `[10,20,30][1]` | `20` | Índice começa no 0, então posição 1 é o 20. |
-| 12 | lista | `append(3)` + `len` | `3` | Após adicionar, a lista tem 3 itens. |
-| 13 | matriz | `m[1][2]` | `6` | Segunda linha `[4,5,6]`, terceira coluna → 6. |
-| 14 | laços aninhados | soma de `[[1,1],[1,1]]` | `4` | Quatro valores 1 somados. |
-| 15 | função | `f(x)=x*3`, `f(2)+1` | `7` | f(2) dá 6, mais 1 = 7. |
-| 16 | teste/assert | `assert dobro(3)==9` | `AssertionError` | dobro(3) é 6, não 9 → o assert falha e trava. |
-
-> **Por que as respostas são curtas e parecidas?** Foi de propósito. Assim ninguém acerta só olhando qual alternativa é a maior — todos precisam realmente entender o código.
+**Ação no site:** abra o tópico **"06 · Laços de repetição"** e peça para a
+turma "rodar" o `for` de cabeça antes de mostrar a explicação.
 
 ---
 
-## Fechamento (5 min)
+## Bloco 8 — Vetores / arrays (10 min)
 
-> _"Olhem quanta coisa a gente viu numa aula só: começamos escrevendo um `print` e terminamos entendendo matrizes, funções e testes. Isso é MUITA coisa, e vocês acompanharam."_
+**Cola pra você entender antes de explicar:**
 
-> _"Se tem uma frase pra levar pra casa é: programar não é decorar, é PENSAR o que o computador vai fazer, passo a passo. O resto vem com prática."_
+Um array guarda várias posições do MESMO tipo, uma atrás da outra na
+memória. O detalhe que mais gera erro em quem está começando: a contagem
+começa em **zero**, não em um.
 
-**Pergunta final pra turma:** _"Me digam uma coisa que vocês acharam mais difícil hoje e uma que acharam mais fácil."_ — isso te ajuda a saber onde reforçar na próxima aula.
+**O que falar:**
 
-> _"Valeu, pessoal! Podem voltar aqui no site quando quiserem revisar. Até a próxima!"_
+> "Até agora cada variável guardava só um valor. Mas e se eu precisasse
+> guardar as notas de 4 provas de um aluno? Eu poderia criar 4 variáveis
+> separadas, mas isso não escala. Pra isso existe o array (ou vetor): ele
+> guarda várias posições do mesmo tipo dentro de uma única variável.
+>
+> O detalhe mais importante, que confunde todo mundo no início: a contagem
+> das posições começa no zero, não no um. Então, num array de 4 números, as
+> posições vão de 0 até 3."
+
+**Perguntas para fazer à turma:**
+
+- "Se eu tenho um array com 4 notas e quero pegar a última posição, qual
+  número eu uso: `4` ou `3`?"
+- "O que vocês acham que a propriedade `.length` devolve, olhando o nome
+  dela?"
+
+**Ação no site:** abra o tópico **"07 · Vetores (arrays)"** e mostre o
+console junto com o laço `for` percorrendo o array.
 
 ---
 
-## Extra — perguntas que os alunos podem fazer (e respostas simples)
+## Bloco 9 — Métodos (15 min)
 
-- **"Preciso decorar tudo isso?"** → Não. Programador consulta documentação o tempo todo. O importante é entender a lógica.
-- **"Por que dá erro por causa de um espaço (indentação)?"** → Porque em Python o espaço define o que está "dentro" de um bloco. É a regra da linguagem.
-- **"Qual a diferença de `=` e `==`?"** → Um `=` guarda um valor numa variável. Dois `==` perguntam se dois valores são iguais.
-- **"O índice começa no 0 mesmo?"** → Sim, sempre. O primeiro item é a posição 0.
-- **"`//` e `/` são a mesma coisa?"** → Não. `/` dá o resultado com decimais; `//` só a parte inteira.
+**Cola pra você entender antes de explicar:**
+
+Um método é um "mini programa" com nome, que recebe entradas (parâmetros) e
+pode devolver uma saída (`return`). Serve para não repetir código e para
+organizar o programa em partes menores.
+
+**O que falar:**
+
+> "Reparem que, até agora, todo nosso código estava dentro do `main`. Só que,
+> em programas maiores, isso vira uma bagunça gigante. Pra resolver isso,
+> existem os métodos: blocos de código com nome, que a gente pode chamar
+> quantas vezes quiser.
+>
+> Um método pode receber informações — os parâmetros — e pode devolver um
+> resultado com o `return`. No nosso exemplo, o método `somar` recebe dois
+> números e devolve a soma deles. Quando eu chamo `somar(2, 3)` no `main`,
+> o Java executa o método e substitui essa chamada pelo valor que ele
+> devolveu."
+
+**Perguntas para fazer à turma:**
+
+- "Se eu chamar `somar(4, 6)`, qual valor esse método devolve?"
+- "Por que vocês acham que é melhor usar um método `somar` ao invés de
+  escrever a soma direto sempre que eu precisar dela no código?"
+
+**Ação no site:** abra o tópico **"08 · Métodos"** e destaque o tipo de
+retorno, os parâmetros e o `return` separadamente no console.
 
 ---
 
-## Como rodar o site
+## Bloco 10 — Classes e objetos (15 min)
 
-É um site **puro em HTML, CSS e JavaScript** — não precisa de nada instalado.
+**Cola pra você entender antes de explicar:**
 
-- **Jeito mais fácil:** dê dois cliques no arquivo `index.html` e ele abre no navegador.
-- **Arquivos do projeto:**
-  - `index.html` — todo o conteúdo da aula e o quiz.
-  - `style.css` — a aparência (cores, layout).
-  - `script.js` — a lógica do quiz (correção, explicações, placar).
-  - `README.md` — este roteiro.
+Essa é a parte mais abstrata, então vá com calma. Uma **classe** é um
+molde/planta — como a planta de uma casa. Um **objeto** é a casa construída
+de verdade a partir dessa planta. Os **atributos** são as características
+do objeto (cor, tamanho); os **métodos** são o que o objeto sabe fazer.
+
+**O que falar:**
+
+> "Agora vem o conceito mais importante do Java: ele é uma linguagem
+> orientada a objetos. Isso quer dizer que o código é organizado em torno de
+> 'objetos' que representam coisas do mundo real.
+>
+> Pensem numa classe como a planta de uma casa: ela descreve o que a casa
+> vai ter — quantos quartos, qual cor — mas não é a casa em si. O objeto é
+> a casa construída de verdade, seguindo essa planta.
+>
+> No nosso exemplo, `Carro` é a classe: ela descreve que todo carro tem um
+> `modelo` e um `ano` — esses são os atributos, as características. E o
+> `buzinar()` é um método: uma coisa que o carro sabe fazer.
+>
+> Pra criar um carro de verdade, um objeto, a gente usa a palavra `new`.
+> Isso 'constrói a casa' seguindo a planta da classe."
+
+**Perguntas para fazer à turma:**
+
+- "Se eu criasse uma classe `Aluno`, quais atributos vocês colocariam nela?
+  E quais métodos, ou seja, o que um aluno 'sabe fazer' no sistema da
+  escola?"
+- "Qual a diferença entre a classe `Carro` e um objeto `meuCarro` criado a
+  partir dela?"
+
+**Ação no site:** abra o tópico **"09 · Classes e objetos"**, mostre a
+classe `Carro` primeiro, depois o `main` criando o objeto com `new`.
+
+---
+
+## Bloco 11 — Quiz no site (20 min)
+
+**O que falar:**
+
+> "Agora vamos testar o que ficou! Abram o site que eu passei e cliquem em
+> 'Quiz' no menu do topo. São 12 perguntas, algumas com trechos de código
+> pra vocês analisarem antes de responder. Não se preocupem em acertar
+> tudo — o objetivo é ver onde a gente precisa reforçar."
+
+**Como conduzir:**
+
+- Projete o quiz na tela e vá resolvendo pergunta por pergunta junto com a
+  turma, pedindo que respondam em voz alta ou por votação de mãos antes de
+  clicar na alternativa.
+- Depois de cada resposta, peça para alguém explicar com as próprias
+  palavras por que aquela alternativa está certa — isso reforça mais do que
+  só ouvir de você.
+- No final, mostre a tela de resultado e revise juntos as perguntas que a
+  maioria errou.
+
+**Perguntas extras se sobrar tempo:**
+
+- "Qual dessas 12 perguntas vocês acharam mais difícil, e por quê?"
+- "Tem algum tópico de hoje que ficou confuso e vocês querem que eu retome
+  rapidinho antes de a gente encerrar?"
+
+---
+
+## Bloco 12 — Encerramento (5 min)
+
+**O que falar:**
+
+> "Muito bem, pessoal! Hoje a gente saiu do zero e já consegue ler um
+> programa em Java inteiro: entender como ele é organizado, guardar dados em
+> variáveis, tomar decisões, repetir tarefas, guardar várias informações num
+> array, organizar código em métodos e, o mais importante, entender a ideia
+> de classes e objetos.
+>
+> Isso é a base de praticamente tudo que vem depois em Java. Na próxima aula
+> a gente aprofunda [complete com o próximo assunto do seu curso]. Guardem o
+> site com o conteúdo, ele continua disponível pra vocês revisarem em casa."
+
+**Pergunta final para fechar com engajamento:**
+
+- "Numa escala de 0 a 10, o quão confiantes vocês se sentem agora pra ler um
+  código simples em Java? Pode responder só com os dedos."
+
+---
+
+## Estrutura de arquivos do projeto
+
+```
+index.html        → página com o conteúdo da aula (menu lateral + consoles)
+quiz.html         → página do quiz com 12 perguntas
+css/style.css     → estilos do site (tema escuro, inspirado em editor de código)
+js/highlight.js   → destaque de sintaxe Java usado nos dois arquivos
+js/main.js        → navegação entre tópicos no index.html
+js/quiz.js        → perguntas, pontuação e revisão do quiz.html
+```
