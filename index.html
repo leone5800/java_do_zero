@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Java do Zero — Aula Introdutória</title>
+  <meta name="description" content="Conteúdo de apoio para a aula introdutória de Java: sintaxe, variáveis, condicionais, laços, métodos e orientação a objetos." />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <span class="brand-mark">{ }</span>
+      <span>
+        Java do Zero
+        <div class="brand-sub">material de apoio da aula</div>
+      </span>
+    </div>
+    <nav class="main-nav" aria-label="Navegação principal">
+      <a href="index.html" class="is-active">Conteúdo</a>
+      <a href="quiz.html">Quiz</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <p class="eyebrow">// aula 01 · introdução à linguagem</p>
+    <h1 class="text-balance">Tudo que vamos ver hoje sobre Java, num só lugar</h1>
+    <p class="text-pretty">
+      Use o menu ao lado para navegar pelos assuntos durante a aula. Cada
+      tópico tem uma explicação curta e um console de código para
+      acompanharmos juntos. No final, tem um quiz para testar o que ficou.
+    </p>
+  </section>
+
+  <div class="app-shell">
+    <aside class="topics-nav" aria-label="Tópicos da aula">
+      <p class="eyebrow">Tópicos</p>
+      <button class="topic-btn is-active" data-target="t-intro"><span class="num">01</span> O que é Java</button>
+      <button class="topic-btn" data-target="t-estrutura"><span class="num">02</span> Estrutura do programa</button>
+      <button class="topic-btn" data-target="t-variaveis"><span class="num">03</span> Variáveis e tipos</button>
+      <button class="topic-btn" data-target="t-operadores"><span class="num">04</span> Operadores</button>
+      <button class="topic-btn" data-target="t-condicionais"><span class="num">05</span> Condicionais</button>
+      <button class="topic-btn" data-target="t-lacos"><span class="num">06</span> Laços de repetição</button>
+      <button class="topic-btn" data-target="t-arrays"><span class="num">07</span> Vetores (arrays)</button>
+      <button class="topic-btn" data-target="t-metodos"><span class="num">08</span> Métodos</button>
+      <button class="topic-btn" data-target="t-poo"><span class="num">09</span> Classes e objetos</button>
+    </aside>
+
+    <main class="content-area">
+      <!-- 01 -->
+      <section class="topic-panel is-active" id="t-intro">
+        <p class="kicker">01</p>
+        <h1>O que é Java?</h1>
+        <p>
+          Java é uma linguagem de programação orientada a objetos, criada
+          pela Sun Microsystems (hoje pertence à Oracle). Ela é usada em
+          sistemas bancários, aplicativos Android, sistemas de empresas e
+          muito mais.
+        </p>
+
+        <h2>A ideia principal: "escreva uma vez, rode em qualquer lugar"</h2>
+        <p>
+          O código Java não é executado direto pelo computador. Ele passa por
+          duas etapas:
+        </p>
+        <ul>
+          <li><strong>Compilação:</strong> o código-fonte (<code>.java</code>) é transformado em bytecode (<code>.class</code>) pelo JDK.</li>
+          <li><strong>Execução:</strong> a JVM (Java Virtual Machine) lê esse bytecode e executa no sistema operacional, seja Windows, Linux ou Mac.</li>
+        </ul>
+
+        <div class="console">
+          <div class="console-bar">
+            <span class="console-dot"></span><span class="console-dot"></span><span class="console-dot"></span>
+            <span class="console-title">terminal</span>
+          </div>
+          <pre data-lang="java">javac Main.java   // gera Main.class (bytecode)
+java Main         // a JVM executa o bytecode</pre>
+        </div>
+
+        <div class="callout">
+          <strong>JDK, JRE e JVM</strong> — o JDK é o kit completo para
+          desenvolver (inclui compilador). O JRE é o ambiente para só
+          executar programas. A JVM é a "máquina" dentro do JRE que
+          realmente interpreta o bytecode.
+        </div>
+      </section>
+
+      <!-- 02 -->
+      <section class="topic-panel" id="t-estrutura">
+        <p class="kicker">02</p>
+        <h1>Estrutura de um programa Java</h1>
+        <p>
+          Todo programa Java começa com uma <strong>classe</strong>, e toda
+          execução começa pelo método <code>main</code>. É esse método que a
+          JVM procura primeiro.
+        </p>
+
+        <div class="console">
+          <div class="console-bar">
+            <span class="console-dot"></span><span class="console-dot"></span><span class="console-dot"></span>
+            <span class="console-title">Main.java</span>
+          </div>
+          <pre data-lang="java">public class Main {
+    public static void main(String[] args) {
+        System.out.println("Ola, mundo!");
+    }
+}</pre>
+          <div class="console-out">
+            <div class="console-bar">
+              <span class="console-title">saída</span>
+            </div>
+            <pre data-lang="java">Ola, mundo!</pre>
+          </div>
+        </div>
+
+        <h2>Explicando cada peça</h2>
+        <ul>
+          <li><strong>public class Main</strong> — declara uma classe pública chamada Main. O nome do arquivo precisa ser igual ao nome da classe.</li>
+          <li><strong>public static void main(String[] args)</strong> — o ponto de entrada do programa.</li>
+          <li><strong>System.out.println(...)</strong> — imprime um texto no console, com quebra de linha no final.</li>
+          <li><strong>;</strong> — cada instrução em Java termina com ponto e vírgula.</li>
+        </ul>
+      </section>
+
+      <!-- 03 -->
+      <section class="topic-panel" id="t-variaveis">
+        <p class="kicker">03</p>
+        <h1>Variáveis e tipos de dados</h1>
+        <p>
+          Uma variável é um espaço na memória com um nome, um tipo e um
+          valor. Em Java, o tipo precisa ser declarado antes de usar a
+          variável — isso chama-se <strong>tipagem estática</strong>.
+        </p>
+
+        <div class="console">
+          <div class="console-bar">
+            <span class="console-dot"></span><span class="console-dot"></span><span class="console-dot"></span>
+            <span class="console-title">Variaveis.java</span>
+          </div>
+          <pre data-lang="java">int idade = 20;
+double altura = 1.75;
+char inicial = 'M';
+boolean aprovado = true;
+String nome = "Maria";</pre>
+        </div>
+
+        <h2>Tipos primitivos mais usados</h2>
+        <ul>
+          <li><strong>int</strong> — números inteiros (sem casas decimais).</li>
+          <li><strong>double</strong> — números com casas decimais.</li>
+          <li><strong>boolean</strong> — apenas <code>true</code> ou <code>false</code>.</li>
+          <li><strong>char</strong> — um único caractere, entre aspas simples.</li>
+          <li><strong>String</strong> — texto (não é primitivo, é uma classe, mas usamos como se fosse).</li>
+        </ul>
+
+        <div class="callout">
+          Diferença importante: aspas simples <code>'A'</code> são
+          <strong>char</strong>; aspas duplas <code>"A"</code> são
+          <strong>String</strong>.
+        </div>
+      </section>
+
+      <!-- 04 -->
+      <section class="topic-panel" id="t-operadores">
+        <p class="kicker">04</p>
+        <h1>Operadores</h1>
+        <p>
+          Operadores combinam valores e variáveis para produzir um
+          resultado. Os principais grupos são aritméticos, relacionais e
+          lógicos.
+        </p>
+
+        <div class="console">
+          <div class="console-bar">
+            <span class="console-dot"></span><span class="console-dot"></span><span class="console-dot"></span>
+            <span class="console-title">Operadores.java</span>
+          </div>
+          <pre data-lang="java">int x = 10;
+int y = 3;
+
+System.out.println(x + y);  // soma
+System.out.println(x % y);  // resto da divisao
+System.out.println(x > y);  // comparacao
+System.out.println(x > 0 && y > 0); // "e" logico</pre>
+        </div>
+
+        <h2>Grupos principais</h2>
+        <ul>
+          <li><strong>Aritméticos:</strong> <code>+ - * / %</code> (o <code>%</code> é o resto da divisão).</li>
+          <li><strong>Relacionais:</strong> <code>== != &gt; &lt; &gt;= &lt;=</code> — sempre resultam em <code>true</code> ou <code>false</code>.</li>
+          <li><strong>Lógicos:</strong> <code>&amp;&amp;</code> (e), <code>||</code> (ou), <code>!</code> (negação).</li>
+        </ul>
+      </section>
+
+      <!-- 05 -->
+      <section class="topic-panel" id="t-condicionais">
+        <p class="kicker">05</p>
+        <h1>Estruturas condicionais</h1>
+        <p>
+          Condicionais permitem que o programa tome decisões, executando um
+          bloco de código diferente dependendo de uma condição.
+        </p>
+
+        <div class="console">
+          <div class="console-bar">
+            <span class="console-dot"></span><span class="console-dot"></span><span class="console-dot"></span>
+            <span class="console-title">Condicional.java</span>
+          </div>
+          <pre data-lang="java">int idade = 20;
+
+if (idade >= 18) {
+    System.out.println("Maior de idade");
+} else {
+    System.out.println("Menor de idade");
+}</pre>
+        </div>
+
+        <h2>switch: quando há muitas opções fixas</h2>
+        <div class="console">
+          <div class="console-bar">
+            <span class="console-dot"></span><span class="console-dot"></span><span class="console-dot"></span>
+            <span class="console-title">Switch.java</span>
+          </div>
+          <pre data-lang="java">int dia = 3;
+
+switch (dia) {
+    case 1: System.out.println("Segunda"); break;
+    case 2: System.out.println("Terca"); break;
+    case 3: System.out.println("Quarta"); break;
+    default: System.out.println("Dia invalido");
+}</pre>
+        </div>
+      </section>
+
+      <!-- 06 -->
+      <section class="topic-panel" id="t-lacos">
+        <p class="kicker">06</p>
+        <h1>Laços de repetição</h1>
+        <p>
+          Laços (ou "loops") repetem um bloco de código enquanto uma
+          condição for verdadeira. Evitam que a gente escreva a mesma linha
+          várias vezes.
+        </p>
+
+        <div class="console">
+          <div class="console-bar">
+            <span class="console-dot"></span><span class="console-dot"></span><span class="console-dot"></span>
+            <span class="console-title">For.java</span>
+          </div>
+          <pre data-lang="java">for (int i = 0; i < 5; i++) {
+    System.out.println(i);
+}</pre>
+        </div>
+
+        <h2>while e do-while</h2>
+        <ul>
+          <li><strong>for</strong> — ideal quando já sabemos quantas vezes repetir.</li>
+          <li><strong>while</strong> — repete enquanto a condição for verdadeira, testada antes.</li>
+          <li><strong>do-while</strong> — igual ao while, mas testa a condição depois, então o bloco roda pelo menos uma vez.</li>
+        </ul>
+
+        <div class="console">
+          <div class="console-bar">
+            <span class="console-dot"></span><span class="console-dot"></span><span class="console-dot"></span>
+            <span class="console-title">DoWhile.java</span>
+          </div>
+          <pre data-lang="java">int senha;
+do {
+    senha = 1234; // simulacao de leitura
+} while (senha != 1234);</pre>
+        </div>
+      </section>
+
+      <!-- 07 -->
+      <section class="topic-panel" id="t-arrays">
+        <p class="kicker">07</p>
+        <h1>Vetores (arrays)</h1>
+        <p>
+          Um array guarda várias posições do mesmo tipo, acessadas por um
+          índice que começa em zero.
+        </p>
+
+        <div class="console">
+          <div class="console-bar">
+            <span class="console-dot"></span><span class="console-dot"></span><span class="console-dot"></span>
+            <span class="console-title">Vetor.java</span>
+          </div>
+          <pre data-lang="java">int[] notas = {8, 9, 7, 10};
+
+System.out.println(notas[0]); // primeira posicao
+System.out.println(notas.length); // tamanho do vetor
+
+for (int i = 0; i < notas.length; i++) {
+    System.out.println(notas[i]);
+}</pre>
+        </div>
+
+        <div class="callout">
+          O índice sempre começa em <strong>0</strong>. Em um array de 4
+          posições, os índices válidos vão de <code>0</code> a
+          <code>3</code>.
+        </div>
+      </section>
+
+      <!-- 08 -->
+      <section class="topic-panel" id="t-metodos">
+        <p class="kicker">08</p>
+        <h1>Métodos</h1>
+        <p>
+          Um método é um bloco de código com nome, que pode receber
+          parâmetros e devolver um resultado. Serve para organizar e
+          reaproveitar código.
+        </p>
+
+        <div class="console">
+          <div class="console-bar">
+            <span class="console-dot"></span><span class="console-dot"></span><span class="console-dot"></span>
+            <span class="console-title">Metodos.java</span>
+          </div>
+          <pre data-lang="java">public static int somar(int a, int b) {
+    return a + b;
+}
+
+public static void main(String[] args) {
+    int resultado = somar(2, 3);
+    System.out.println(resultado);
+}</pre>
+        </div>
+
+        <h2>Peças de um método</h2>
+        <ul>
+          <li><strong>Tipo de retorno:</strong> <code>int</code>, <code>void</code>, <code>String</code>... define o que o método devolve.</li>
+          <li><strong>Parâmetros:</strong> valores que o método recebe para trabalhar.</li>
+          <li><strong>return:</strong> devolve o resultado e encerra o método.</li>
+        </ul>
+      </section>
+
+      <!-- 09 -->
+      <section class="topic-panel" id="t-poo">
+        <p class="kicker">09</p>
+        <h1>Classes e objetos</h1>
+        <p>
+          Java é uma linguagem orientada a objetos. Uma <strong>classe</strong>
+          é um molde que descreve atributos (dados) e métodos
+          (comportamentos). Um <strong>objeto</strong> é uma instância
+          concreta criada a partir desse molde.
+        </p>
+
+        <div class="console">
+          <div class="console-bar">
+            <span class="console-dot"></span><span class="console-dot"></span><span class="console-dot"></span>
+            <span class="console-title">Carro.java</span>
+          </div>
+          <pre data-lang="java">public class Carro {
+    String modelo;
+    int ano;
+
+    void buzinar() {
+        System.out.println("Fom fom!");
+    }
+}</pre>
+        </div>
+
+        <h2>Criando um objeto a partir da classe</h2>
+        <div class="console">
+          <div class="console-bar">
+            <span class="console-dot"></span><span class="console-dot"></span><span class="console-dot"></span>
+            <span class="console-title">Main.java</span>
+          </div>
+          <pre data-lang="java">Carro meuCarro = new Carro();
+meuCarro.modelo = "Fusca";
+meuCarro.ano = 1978;
+meuCarro.buzinar();</pre>
+        </div>
+
+        <ul>
+          <li><strong>Atributos</strong> (<code>modelo</code>, <code>ano</code>) — guardam o estado do objeto.</li>
+          <li><strong>Métodos</strong> (<code>buzinar</code>) — definem o comportamento do objeto.</li>
+          <li><strong>new</strong> — palavra-chave que cria uma instância da classe na memória.</li>
+        </ul>
+      </section>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    Material de apoio para a aula de Java do zero.
+  </footer>
+
+  <script src="js/highlight.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

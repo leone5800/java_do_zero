@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz — Java do Zero</title>
+  <meta name="description" content="Quiz com perguntas e consoles de código para testar o que foi aprendido na aula introdutória de Java." />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <span class="brand-mark">{ }</span>
+      <span>
+        Java do Zero
+        <div class="brand-sub">material de apoio da aula</div>
+      </span>
+    </div>
+    <nav class="main-nav" aria-label="Navegação principal">
+      <a href="index.html">Conteúdo</a>
+      <a href="quiz.html" class="is-active">Quiz</a>
+    </nav>
+  </header>
+
+  <main class="quiz-shell">
+    <div id="quiz-progress" class="quiz-progress">
+      <div class="quiz-progress-track">
+        <div class="quiz-progress-fill" id="progress-fill"></div>
+      </div>
+      <span class="quiz-progress-label" id="progress-label">Pergunta 1 de 12</span>
+    </div>
+
+    <section class="quiz-card" id="quiz-card">
+      <p class="quiz-tag" id="quiz-tag">Pergunta 01</p>
+      <h2 class="quiz-question" id="quiz-question"></h2>
+
+      <div class="console" id="quiz-console" style="display: none;">
+        <div class="console-bar">
+          <span class="console-dot"></span><span class="console-dot"></span><span class="console-dot"></span>
+          <span class="console-title" id="quiz-console-title">console</span>
+        </div>
+        <pre data-lang="java" id="quiz-code"></pre>
+      </div>
+
+      <div class="quiz-options" id="quiz-options"></div>
+
+      <div class="quiz-feedback" id="quiz-feedback"></div>
+
+      <div class="quiz-footer">
+        <button class="btn btn-primary" id="btn-next" disabled>Próxima pergunta</button>
+      </div>
+    </section>
+
+    <section class="quiz-card quiz-result" id="quiz-result">
+      <p class="quiz-tag">Resultado</p>
+      <h2 class="quiz-question">Foi assim que você se saiu</h2>
+      <p class="score" id="final-score">0/12</p>
+      <p class="score-label" id="final-label">acertos no quiz de Java</p>
+
+      <div class="review-list" id="review-list"></div>
+
+      <div class="actions">
+        <button class="btn btn-primary" id="btn-restart">Refazer o quiz</button>
+        <a class="btn btn-ghost" href="index.html">Revisar o conteúdo</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    Material de apoio para a aula de Java do zero.
+  </footer>
+
+  <script src="js/highlight.js"></script>
+  <script src="js/quiz.js"></script>
+</body>
+</html>
