@@ -1,354 +1,146 @@
+# Java em sala — roteiro completo da aula
 
-# Roteiro da Aula — LGPD & Segurança na Nuvem (150 minutos)
+Este material foi pensado para uma aula de **150 minutos**, começando do zero e avançando até uma primeira visão de orientação a objetos. O site é o apoio visual. O texto abaixo é a fala sugerida: você pode ler, adaptar e fazer pausas para ouvir a turma.
 
-> Este arquivo é o seu **roteiro de fala**. Ele foi escrito para quem não domina o assunto:
-> tem o que **falar** (em linguagem simples), o que **perguntar** para a turma e a **resposta**
-> de cada pergunta para você não ser pego de surpresa. Leia com calma, no seu ritmo.
+## Antes de começar
+
+Abra o site no navegador e deixe a primeira etapa selecionada. Combine com a turma que ninguém precisa acertar tudo de primeira: o objetivo é entender como pensar e testar.
+
+## 0–10 min — Acolhida e objetivo
+
+**Fale:**
+
+> Bom dia, pessoal. Hoje nós vamos começar a estudar Java do começo. Não quero que vocês apenas copiem códigos: quero que entendam o que cada parte está dizendo para o computador. No final da aula, vocês vão conseguir ler um programa pequeno, criar variáveis, tomar decisões e organizar uma tarefa em um método.
 >
-> **Como usar o site durante a aula:** abra a página inicial e vá descendo conforme o roteiro.
-> Os menus no topo (LGPD, Nuvem, Console, Quiz) levam direto a cada parte.
+> Se alguém nunca programou, está tudo bem. Programar é dar instruções em uma ordem que a máquina consiga seguir. Nós vamos errar de propósito algumas vezes, porque testar e corrigir faz parte do trabalho.
 
-## Resumo do tempo
+**Pergunte:** “Quando vocês usam um aplicativo, o que imaginam que acontece por trás de um botão?” Escute duas ou três respostas e conecte com a ideia de instruções.
 
-| Bloco | Tempo | O que acontece |
-|------|-------|----------------|
-| 1. Abertura e boas-vindas | 0–10 min | Apresentar o tema e por que ele importa |
-| 2. Módulo LGPD | 10–65 min | Titular, dado pessoal, dado sensível, base legal |
-| 3. Intervalo | 65–75 min | Pausa |
-| 4. Módulo Segurança na Nuvem | 75–120 min | Responsabilidade compartilhada, IAM, criptografia |
-| 5. Console de código | 120–135 min | Rodar exemplos ao vivo |
-| 6. Quiz final | 135–150 min | Avaliar e fechar a aula |
+## 10–30 min — Etapa 1: primeiros passos
 
----
-
-## Bloco 1 — Abertura (0–10 min)
-
-**Fale (pode ler quase como está):**
-
-> "Bom dia, pessoal! Tudo certo com vocês? Hoje a nossa aula é sobre dois assuntos que estão em
-> **todo** aplicativo que vocês usam: a **proteção dos dados das pessoas** e a **segurança na nuvem**.
-> Sabe quando você faz um cadastro num site e ele pede seu nome, e-mail, CPF? Alguém precisa cuidar
-> disso direito. Hoje a gente vai entender **quem cuida**, **como** cuida e **o que a lei exige**."
-
-**Pergunte para a turma (para quebrar o gelo):**
-
-- "Quem aqui já recebeu aquele aviso de *'este site usa cookies'* ou de *'política de privacidade'*?"
-- "Vocês já pararam para pensar **onde** ficam guardadas as fotos e mensagens do celular de vocês?"
-
-> Não precisa de resposta certa aqui. É só para engajar. Deixe 2 ou 3 alunos falarem.
-
-**Feche o bloco dizendo:**
-
-> "Então é isso que a gente vai destrinchar hoje. Vou mostrar um site que eu preparei, a gente vai
-> ver os conceitos, testar um pouco de código e no fim tem um quiz para ver se pegamos a ideia."
-
-👉 *No site: mostre a tela inicial (Hero) e leia os 4 blocos numerados: LGPD, Nuvem, Console e Quiz.*
-
----
-
-## Bloco 2 — Módulo LGPD (10–65 min)
-
-👉 *No site: clique em "LGPD" no menu ou no botão "Começar a aula".*
-
-### 2.1 — O que é a LGPD (10–18 min)
+Selecione **Primeiros passos** no site e mostre o console.
 
 **Fale:**
 
-> "LGPD quer dizer **Lei Geral de Proteção de Dados**. É a Lei número 13.709, de 2018. De um jeito
-> simples: ela é o **conjunto de regras** que diz como empresas e sistemas podem **coletar** e **usar**
-> as informações das pessoas. A ideia central é: o dado é da **pessoa**, não da empresa. A empresa só
-> está usando aquilo com autorização e com responsabilidade."
+> Java é uma linguagem de programação. Ela permite escrever instruções que podem rodar em diferentes computadores. O computador não entende nossa intenção; ele precisa de uma ordem clara.
+>
+> Nesta primeira linha, `public class Main`, estamos criando uma classe chamada Main. Por enquanto, pensem nela como uma caixa que guarda o nosso programa.
+>
+> O método `main` é o ponto de partida. Quando o programa começa, é por ali que o Java procura a primeira instrução. Já `System.out.println` significa: mostre uma mensagem e pule para a próxima linha.
 
-**Pergunte:**
+Clique em **Executar código**.
 
-- "Na opinião de vocês, uma empresa pode fazer **qualquer coisa** com os nossos dados?"
+**Pergunte:** “Se eu trocar o texto dentro das aspas, qual parte do resultado muda?” Depois peça que alguém sugira uma mensagem e altere no console.
 
-> **Resposta para você:** Não. Ela só pode usar os dados com uma justificativa prevista na lei
-> (chamamos de *base legal*) e sempre respeitando a pessoa. Vamos ver isso já já.
+**Reforce:** chaves agrupam um bloco; parênteses ajudam a chamar um método; ponto e vírgula encerra muitas instruções.
 
-### 2.2 — Titular dos dados (18–26 min)
+## 30–55 min — Etapa 2: variáveis e tipos
 
-👉 *No site: mostre o card "Titular dos dados".*
-
-**Fale:**
-
-> "O primeiro termo importante é **titular dos dados**. O titular é a **pessoa** de quem são aqueles
-> dados. Se o sistema guarda o **meu** nome e o **meu** CPF, então **eu** sou o titular. Guardem essa
-> palavra: titular = a pessoa dona da informação."
-
-**Pergunte:**
-
-- "Se um site tem o cadastro do João, quem é o titular dos dados: o site ou o João?"
-
-> **Resposta:** O **João**. O site apenas trata os dados dele. A LGPD existe justamente para proteger
-> o titular (o João), não a empresa.
-
-### 2.3 — Dado pessoal (26–36 min)
-
-👉 *No site: mostre o card "Dado pessoal".*
+Selecione **Variáveis e tipos**.
 
 **Fale:**
 
-> "Agora, o que é um **dado pessoal**? É qualquer informação que **identifica** uma pessoa, ou que
-> pode identificar. Exemplos fáceis: nome, CPF, e-mail, telefone, endereço. Um detalhe importante:
-> às vezes um dado sozinho não diz muito, mas **junto** com outros identifica a pessoa. Até o número
-> de IP do computador pode ser dado pessoal."
+> Agora o programa vai precisar lembrar de informações. Uma variável é um nome que aponta para um valor. Podemos imaginar uma caixa etiquetada: a etiqueta é o nome e o conteúdo é o valor.
+>
+> `String` guarda texto, `int` guarda números inteiros, `double` guarda números com casas decimais e `boolean` guarda verdadeiro ou falso. O tipo ajuda o Java a saber que operações fazem sentido.
+>
+> Leiam esta linha: `int idade = 16`. Primeiro vem o tipo, depois o nome, depois o sinal de igual e o valor. O igual aqui significa “guardar”, não “perguntar se é igual”.
 
-**Pergunte:**
+**Faça junto:** troque `Ana` pelo nome de alguém da turma e `16` por outra idade. Execute e observe.
 
-- "O e-mail de uma pessoa é dado pessoal? E a cidade onde ela mora?"
+**Pergunte:** “Para guardar o preço de um produto, vocês usariam `String`, `int` ou `double`? Por quê?” Aceite `double` como resposta mais adequada quando houver centavos.
 
-> **Resposta:** O e-mail **sim**, porque geralmente identifica a pessoa. A cidade sozinha normalmente
-> não identifica ninguém (tem milhões de pessoas na mesma cidade), mas **combinada** com outros dados
-> pode ajudar a identificar. O segredo é sempre perguntar: "isso aponta para alguém?".
-
-### 2.4 — Dado pessoal sensível (36–48 min)
-
-👉 *No site: mostre o card destacado "Dado pessoal sensível".*
+## 55–65 min — Pausa curta e revisão
 
 **Fale:**
 
-> "Existe um tipo especial, que a lei protege ainda mais: o **dado sensível**. São informações que,
-> se usadas de forma errada, podem gerar **discriminação** contra a pessoa. Entram aqui: dados de
-> **saúde**, **religião**, **origem racial ou étnica**, **opinião política**, **filiação a sindicato**,
-> **vida sexual** e dados **biométricos** (como digital e reconhecimento facial)."
+> Vamos fazer uma pausa rápida. Antes dela, cada pessoa vai explicar para quem está ao lado a diferença entre texto e número. Não precisa usar palavras difíceis: explique como você explicaria para alguém que nunca programou.
 
-**Pergunte:**
+Depois da pausa, peça duas explicações. Corrija com calma qualquer confusão entre aspas e números.
 
-- "Por que vocês acham que dado de **saúde** precisa de proteção maior que um simples nome?"
+## 65–95 min — Etapa 3: decisões e repetição
 
-> **Resposta:** Porque essa informação pode ser usada para **prejudicar** a pessoa — por exemplo, um
-> plano de saúde ou um emprego negado por causa de uma doença. Por isso a lei é mais rígida com dados
-> sensíveis.
-
-**Dinâmica rápida (classificar em conjunto):** diga um dado e peça para a turma responder "pessoal",
-"sensível" ou "nem é dado pessoal":
-
-- CPF → **pessoal**
-- Religião → **sensível**
-- Nome da rua onde mora → **pessoal**
-- Digital do dedo (biometria) → **sensível**
-- Cor favorita → **normalmente nem é dado pessoal**
-
-### 2.5 — Base legal e conformidade (48–65 min)
-
-👉 *No site: mostre o card "Base legal", o quadro "Papéis importantes" e a caixa "Verificando conformidade".*
+Selecione **Decisões e repetição**.
 
 **Fale:**
 
-> "A empresa não pode usar os dados **só porque quer**. Ela precisa de uma **base legal**: um motivo
-> que a lei aceita. Os mais comuns são: o **consentimento** (a pessoa autorizou), o **cumprimento de
-> um contrato** (ex.: preciso do seu endereço para entregar sua compra) e o **cumprimento de uma
-> obrigação legal** (ex.: guardar nota fiscal). Sem uma dessas justificativas, o uso do dado é irregular."
+> Um programa útil não faz sempre a mesma coisa. Ele verifica uma condição e escolhe um caminho. É isso que o `if` faz. Se a condição for verdadeira, o bloco entre chaves é executado; caso contrário, o `else` apresenta outra possibilidade.
+>
+> Aqui `nota >= 6` é uma pergunta: a nota é maior ou igual a seis? O resultado dessa pergunta é verdadeiro ou falso. O programa usa esse resultado para decidir.
 
-**Fale sobre os papéis (leia o quadro do site):**
+Altere a nota para `5` e execute. Depois volte para `8`.
 
-> "Rapidinho, três papéis: o **Controlador** decide o que fazer com os dados; o **Operador** executa
-> em nome dele; e o **Encarregado**, também chamado de **DPO**, é a pessoa de contato entre a empresa,
-> os titulares e a **ANPD**, que é o órgão do governo que fiscaliza a lei."
+**Pergunte:** “O que mudaria se usássemos `>` no lugar de `>=`?” Espere que percebam que a nota exatamente 6 deixaria de passar.
 
-**Pergunte:**
+**Explique laços brevemente:**
 
-- "Uma loja precisa do seu endereço para entregar um produto. Isso é permitido pela LGPD?"
+> Quando queremos repetir uma tarefa, usamos estruturas como `for` e `while`. O `for` é útil quando sabemos quantas vezes queremos repetir. Por exemplo, mostrar os números de 1 até 3.
 
-> **Resposta:** **Sim.** A base legal aqui é a **execução do contrato** — sem o endereço, não dá para
-> entregar. O que a loja **não** pode é usar esse endereço para outra coisa não combinada.
+Se houver tempo, escreva no quadro:
 
-**Feche o módulo com as 3 perguntas de conformidade (estão na tela):**
+```java
+for (int i = 1; i <= 3; i++) {
+  System.out.println(i);
+}
+```
 
-> "Antes de coletar qualquer dado, um time responsável deveria conseguir responder: **1)** qual dado
-> e ele é mesmo necessário? **2)** qual a base legal? **3)** por quanto tempo vou guardar e como vou
-> proteger? Se travar em alguma dessas, tem algo errado."
+Peça para a turma prever a saída antes de executar.
 
----
+## 95–120 min — Etapa 4: métodos e organização
 
-## Bloco 3 — Intervalo (65–75 min)
-
-> "Vamos fazer uma pausa de 10 minutinhos. Quando voltarmos, saímos da parte da **lei** e vamos para
-> a parte mais **técnica**: como os dados ficam seguros na nuvem."
-
----
-
-## Bloco 4 — Segurança na Nuvem (75–120 min)
-
-👉 *No site: clique em "Nuvem" no menu.*
-
-### 4.1 — O que é "nuvem" (75–82 min)
+Selecione **Métodos e organização**.
 
 **Fale:**
 
-> "Quando a gente fala em **nuvem**, é basicamente usar computadores e servidores de outra empresa,
-> pela internet, em vez de ter tudo na nossa própria máquina. Netflix, Instagram, Google Drive — tudo
-> roda na nuvem. A pergunta é: se os dados estão no computador dos outros, **quem** cuida da segurança?"
+> Até aqui, colocamos as instruções em sequência. Agora vamos dar nomes para tarefas. Um método é um bloco de código que pode ser chamado quando necessário. Isso evita repetição e deixa o programa mais fácil de ler.
+>
+> O método `somar` recebe dois valores, chamados parâmetros, e devolve um resultado com `return`. Pensem nele como uma pequena máquina: entram dois números, acontece uma operação e sai uma resposta.
 
-### 4.2 — Modelo de Responsabilidade Compartilhada (82–95 min)
+**Pergunte:** “O que aconteceria se chamássemos `somar(10, 4)`?” Deixe a turma responder `14` antes de trocar no site.
 
-👉 *No site: mostre o quadro dividido "Provedor cuida" x "Cliente cuida".*
+**Reforce:** parâmetros são entradas; `return` é a saída; o tipo `int` antes do nome indica que o método devolve um inteiro.
 
-**Fale:**
+## 120–140 min — Etapa 5: objetos e classes
 
-> "A resposta é: a segurança é **dividida**. Isso se chama **Modelo de Responsabilidade Compartilhada**,
-> ou *Shared Responsibility* em inglês. Funciona assim: o **provedor** (a empresa dona da nuvem, tipo
-> Amazon, Google, Microsoft) cuida da segurança **DA** nuvem — o prédio, os servidores, a parte física.
-> E o **cliente** (nós, que usamos a nuvem) cuidamos da segurança **NA** nuvem — os nossos dados, as
-> senhas, quem tem acesso a quê."
-
-> Dica de didática: enfatize a diferença entre **DA** nuvem (provedor) e **NA** nuvem (cliente). É a
-> troca de uma letrinha, mas muda tudo.
-
-**Pergunte:**
-
-- "Se alguém rouba dados porque **a senha era fraca e foi compartilhada**, a culpa é do provedor da
-  nuvem ou do cliente?"
-
-> **Resposta:** Do **cliente**. Senha e controle de acesso são responsabilidade de quem usa a nuvem.
-> O provedor garante que o servidor físico está seguro, mas não escolhe a sua senha.
-
-### 4.3 — IAM: quem acessa o quê (95–107 min)
-
-👉 *No site: mostre o card "IAM — Gestão de Identidade e Acesso".*
+Selecione **Objetos e classes**.
 
 **Fale:**
 
-> "Aqui entra o **IAM**, que significa **Gestão de Identidade e Acesso**. É o sistema que controla
-> **quem** pode acessar **o quê**. Cada pessoa tem um usuário, faz parte de grupos e recebe permissões.
-> A regra mais importante do IAM é o **princípio do menor privilégio**: cada pessoa recebe **só** o
-> acesso que precisa para o trabalho dela. Nada de dar acesso a tudo 'por via das dúvidas'."
+> Agora vamos conhecer uma ideia importante do Java: orientação a objetos. Uma classe é um modelo. Por exemplo, podemos ter um modelo chamado Aluno com um nome e um comportamento chamado apresentar.
+>
+> Um objeto é uma instância concreta desse modelo. A classe diz o que um aluno pode ter e fazer; um objeto representa um aluno específico. Não precisamos dominar tudo hoje. O mais importante é perceber que podemos organizar dados e comportamentos juntos.
 
-**Pergunte:**
+**Pergunte:** “Se criássemos uma classe `Livro`, qual característica e qual ação ela poderia ter?” Espere ideias como título, autor, abrir ou emprestar.
 
-- "Um estagiário que só precisa **ler** relatórios deveria ter permissão para **apagar** o banco de
-  dados inteiro?"
+## 140–150 min — Desafio, quiz e fechamento
 
-> **Resposta:** **Não!** Isso viola o menor privilégio. Ele deve receber só a permissão de **leitura**.
-> Assim, mesmo que a conta dele seja invadida, o estrago possível é muito menor.
-
-> Mencione também o **MFA** (autenticação em dois fatores): além da senha, um segundo código. É uma
-> camada extra que o cliente configura.
-
-### 4.4 — Criptografia em trânsito (107–120 min)
-
-👉 *No site: mostre o card "Criptografia em trânsito" e o quadro "Em trânsito x em repouso".*
+Abra **Desafio final** e depois o **Quiz rápido**.
 
 **Fale:**
 
-> "Última peça: **criptografia**. Criptografar é **embaralhar** a informação de um jeito que só quem
-> tem a chave consegue ler. Existem dois momentos: os dados podem estar **parados** (salvos no disco)
-> ou **em movimento** (viajando pela internet). A **criptografia em trânsito** protege os dados
-> **enquanto eles viajam** pela rede — entre o navegador de vocês e o servidor."
+> Agora vamos juntar as ideias. Temos uma variável, uma condição e uma mudança de valor. Antes de executar, tentem prever o resultado. Programadores fazem muito isso: imaginam a saída, executam e comparam.
+>
+> No quiz, não quero somente a letra. Quem responder deve explicar por que escolheu. Uma resposta errada também ajuda, porque mostra qual parte precisamos revisar.
 
-> "Vocês já viram aquele **cadeado** na barra do navegador e o endereço começando com **HTTPS**? É
-> exatamente isso: o HTTPS usa uma tecnologia chamada **TLS** para embaralhar os dados no caminho.
-> Se fosse só HTTP, sem o 'S', alguém no meio do caminho poderia **ler** a sua senha."
+Use o quiz uma pergunta por vez. Depois de cada resposta, peça que um aluno explique com suas palavras. Não revele a resposta imediatamente: primeiro pergunte “o que no código fez você pensar isso?”.
 
-**Pergunte:**
+**Feche dizendo:**
 
-- "Vocês colocariam a senha do banco de vocês num site que começa com **http://**, sem o cadeado?"
+> Hoje vocês deram os primeiros passos em Java: entenderam o ponto de entrada, variáveis, tipos, decisões, repetições, métodos e a ideia de classes e objetos. Isso já é uma base importante. Na próxima aula, podemos praticar mais exercícios e começar a construir um programa pequeno do início ao fim.
+>
+> Para estudar, tentem alterar os exemplos: troquem valores, mudem condições e prevejam a saída antes de executar. A prática de explicar o que o código faz é tão importante quanto escrever.
 
-> **Resposta:** **Não deveriam.** Sem HTTPS, os dados vão sem proteção pela rede e podem ser
-> interceptados. Sempre confira o cadeado e o "https" antes de digitar dados importantes.
+## Gabarito do quiz
 
----
+1. **Iniciar a execução** — o `main` é o ponto de entrada do programa.
+2. **String** — nomes são textos.
+3. **O bloco é executado** — isso acontece quando a condição é verdadeira.
+4. **Repetir ou organizar uma tarefa** — métodos evitam repetição.
+5. **Um modelo para criar objetos** — a classe descreve dados e comportamentos.
 
-## Bloco 5 — Console de código ao vivo (120–135 min)
+## Observações para quem está ensinando
 
-👉 *No site: clique em "Console" no menu.*
-
-**Fale:**
-
-> "Agora vamos **ver isso funcionando**. Aqui do lado tem alguns exemplos prontos. Eu clico num
-> exemplo, a gente lê o código juntos e aperta **Executar** para ver o resultado."
-
-**Faça na ordem (clique em cada exemplo, leia e execute):**
-
-1. **"Isto é dado pessoal?"**
-   > "Esse código verifica se um texto tem um CPF dentro. Aperta Executar... apareceu **true**. Ou seja:
-   > o sistema reconheceu que ali tem um dado pessoal."
-
-2. **"Classificar dado"**
-   > "Aqui a gente classifica: 'saude' aparece como **sensível**, 'nome' como **pessoal** e 'cidade'
-   > como **não pessoal**. É exatamente o que a gente falou na parte da LGPD."
-
-3. **"Permissão IAM"**
-   > "Essa política libera **só** a ação de **ler** o relatório. Vejam: quando pedimos 'ler', dá
-   > **acesso permitido**. Quando pedimos 'apagar', dá **acesso negado**. Isso é o menor privilégio na
-   > prática."
-
-4. **"Em trânsito?"**
-   > "Por último: o endereço com **https** dá **true** (protegido) e o **http** dá **false**. É o
-   > cadeado que a gente comentou."
-
-**Pergunte:**
-
-- "Alguém quer tentar mudar um valor no código e ver o que acontece?" (Deixe um aluno trocar, por
-  exemplo, "saude" por "email" e executar de novo.)
-
-> **Resposta esperada:** ao trocar "saude" por "email", a classificação muda de **sensível** para
-> **pessoal**. Ótimo momento para reforçar a diferença entre os dois.
-
----
-
-## Bloco 6 — Quiz final (135–150 min)
-
-👉 *No site: clique em "Quiz" no menu.*
-
-**Fale:**
-
-> "Chegou a hora de testar! São 12 perguntas. Um aviso importante: as respostas foram feitas de
-> propósito com **tamanho parecido**. Então **não adianta** só escolher a alternativa mais comprida —
-> tem que **entender** o conceito. Leiam com calma."
-
-**Como conduzir:**
-
-- Faça pergunta por pergunta **em conjunto**, projetando na tela. Peça a turma votar (levantar a mão)
-  antes de clicar na resposta.
-- Ao clicar, o site já mostra **se acertou** e uma **explicação curta**. Aproveite para comentar.
-- No fim, clique em **"Ver meu resultado"** para mostrar a pontuação.
-
-**Gabarito rápido (para você se guiar):**
-
-1. Titular = **a pessoa dona dos dados**.
-2. Sensível = **saúde / religião**.
-3. Dado pessoal = **informação que identifica uma pessoa**.
-4. Empresa precisa de = **uma base legal**.
-5. `ehDadoPessoal` com CPF = **true**.
-6. Provedor cuida = **da infraestrutura física**.
-7. Cliente cuida = **acessos e dados**.
-8. IAM serve para = **controlar quem acessa o quê**.
-9. Menor privilégio = **só o acesso necessário**.
-10. Em trânsito = **enquanto os dados viajam pela rede**.
-11. Protegido em trânsito = **HTTPS com TLS**.
-12. A política = **o usuário pode ler o relatório**.
-
-**Encerramento (fale para fechar):**
-
-> "É isso, pessoal! Hoje a gente viu que a **LGPD** protege os dados das pessoas — sabendo o que é
-> titular, dado pessoal e dado sensível — e que a **segurança na nuvem** depende de todo mundo fazer
-> a sua parte: o provedor cuida da estrutura, e nós cuidamos dos acessos com **IAM** e da proteção dos
-> dados com **criptografia**. Qualquer dúvida, podem me chamar. Valeu pela participação de vocês!"
-
----
-
-## Cola de termos (para consulta rápida durante a aula)
-
-- **LGPD** — Lei Geral de Proteção de Dados (Lei 13.709/2018).
-- **Titular** — a pessoa dona dos dados.
-- **Dado pessoal** — informação que identifica alguém (nome, CPF, e-mail...).
-- **Dado sensível** — categoria especial: saúde, religião, raça, política, biometria...
-- **Base legal** — a justificativa que a lei aceita para usar um dado.
-- **Controlador / Operador / Encarregado (DPO)** — os papéis de quem trata dados.
-- **ANPD** — órgão do governo que fiscaliza a LGPD.
-- **Nuvem** — usar servidores de outra empresa pela internet.
-- **Responsabilidade Compartilhada** — provedor cuida DA nuvem; cliente cuida NA nuvem.
-- **IAM** — Gestão de Identidade e Acesso: quem pode acessar o quê.
-- **Menor privilégio** — dar só o acesso necessário a cada pessoa.
-- **MFA** — autenticação em dois fatores (senha + segundo código).
-- **Criptografia** — embaralhar dados; só quem tem a chave lê.
-- **Em trânsito** — dado viajando pela rede (protegido por HTTPS/TLS).
-- **Em repouso** — dado parado, salvo em disco ou banco.
-
-## Como abrir o site
-
-- **Mais fácil:** dê dois cliques no arquivo `index.html` — ele abre no navegador.
-- **Com servidor local** (opcional): na pasta do projeto, rode `python3 -m http.server 3000` e acesse
-  `http://localhost:3000`.
+- Se a turma estiver com dificuldade, fique mais tempo em variáveis e `if`; não é preciso correr até objetos.
+- Se a turma avançar rápido, peça para criarem uma variável `boolean` chamada `temNota` ou um método `maiorDeIdade`.
+- Evite explicar detalhes de instalação, JVM e sintaxe avançada nesta primeira aula. O objetivo é construir uma primeira imagem mental clara.
+- Sempre peça previsão antes de clicar em **Executar código**. Esse pequeno hábito transforma o site em uma atividade de raciocínio, não apenas em uma demonstração.
