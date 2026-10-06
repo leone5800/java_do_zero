@@ -1,225 +1,168 @@
-# Roteiro de aula — Segurança, redes e continuidade
+# DevOps em sala — roteiro do professor
 
-## Como usar este material
+Este material foi feito para uma aula de **150 minutos** sobre Cultura DevOps, modelo CALMS e feedback contínuo. O site é o apoio visual; este README é o seu roteiro de fala. Não precisa decorar: fale com naturalidade, use os exemplos e deixe a turma responder antes de continuar.
 
-Este roteiro foi preparado para uma aula de **150 minutos**. Use o site como apoio visual e faça as perguntas antes de revelar as respostas no quiz. A ideia é conversar com a turma, não apenas ler os cartões.
+## Antes de começar
 
-> **Observação importante:** qualquer demonstração de SQL Injection deve ser feita somente em um ambiente local, controlado e criado para a aula. Nunca teste em sistemas reais ou sem autorização.
+Abra o site no navegador e diga que a aula será uma conversa, não uma prova. Combine que perguntas são bem-vindas e que ninguém precisa conhecer ferramentas para participar.
 
----
+## Roteiro completo — 150 minutos
 
-## Objetivos da aula
-
-Ao final da aula, os alunos devem conseguir:
-
-- reconhecer riscos comuns de aplicações web;
-- entender sub-redes, IPv4 e CIDR em situações simples;
-- diferenciar ameaça, vulnerabilidade, impacto e risco;
-- explicar os princípios básicos da LGPD;
-- compreender IAM e criptografia em trânsito na nuvem;
-- explicar por que backup, recuperação e continuidade precisam ser planejados.
-
----
-
-## Roteiro minuto a minuto
-
-### 0–10 min — Abertura
+### 1. Abertura e contexto — 10 minutos
 
 **O que falar:**
 
-> “Bom dia, pessoal. Hoje vamos conectar seis assuntos que parecem separados, mas fazem parte da mesma história: proteger informação. Vamos falar sobre aplicações web, redes, riscos, privacidade, nuvem e recuperação. Não quero que vocês apenas decorem siglas. Quero que consigam olhar para uma situação e perguntar: o que pode dar errado, qual seria o impacto e como podemos reduzir esse risco?”
+> Bom dia, pessoal. Hoje nós vamos conversar sobre DevOps. Antes de pensar em ferramentas ou palavras difíceis, quero propor uma ideia simples: criar um software não termina quando alguém escreve o código. A aplicação precisa ser testada, publicada, acompanhada e melhorada.
+>
+> Durante a aula, vamos observar como as pessoas trabalham juntas, como a automação ajuda e como o feedback mostra o que precisa melhorar. No final, vocês vão responder um quiz curto para revisar as ideias.
 
 **Pergunte à turma:**
 
-- “Qual informação vocês consideram mais importante proteger?”
-- “Segurança é responsabilidade apenas do setor de TI? Por quê?”
+- Quando vocês imaginam que um aplicativo está pronto?
+- O que pode dar errado depois que um código foi escrito?
+- Quem deveria cuidar de um problema que aparece em produção?
 
-Explique que não existe segurança absoluta. O objetivo é reduzir probabilidade e impacto, além de preparar uma resposta.
+**Como conduzir:** aceite respostas variadas. Não corrija logo. Diga que vamos voltar a essas perguntas ao longo da aula.
 
-### 10–40 min — Semana 15: Segurança de aplicações web e OWASP Top 10
+### 2. Origem do DevOps — 35 minutos
 
-**O que falar:**
+No site, clique no primeiro bloco, **Origem do DevOps**.
 
-> “Uma aplicação web recebe dados de pessoas, processa regras e conversa com bancos de dados e outros serviços. Cada entrada recebida pode ser usada de forma inesperada se o sistema não validar e tratar corretamente.”
+**O que explicar:**
 
-Apresente, sem tentar decorar a lista inteira, alguns exemplos do OWASP Top 10:
+> Em muitas empresas, desenvolvimento e operações eram áreas separadas. O desenvolvimento criava novas funcionalidades; operações cuidava dos servidores e da disponibilidade. O problema é que cada área podia ter uma prioridade diferente. Uma queria mudar rápido, a outra precisava proteger a estabilidade.
+>
+> DevOps surge como uma mudança de colaboração e responsabilidade. A ideia não é colocar todo mundo para fazer exatamente a mesma coisa. É aproximar as pessoas para que elas entendam o fluxo inteiro e compartilhem o resultado.
+>
+> Por isso, DevOps não é apenas instalar uma ferramenta. É uma forma de trabalhar: planejar junto, entregar em partes menores, observar o resultado e aprender com ele.
 
-- controle de acesso quebrado;
-- falhas de autenticação;
-- injeção;
-- configuração insegura;
-- componentes desatualizados;
-- falhas de registro e monitoramento.
+**Exemplo para contar:**
 
-**Exemplo seguro de SQL Injection:**
-
-Explique primeiro o problema conceitual. Um código inseguro pode montar uma consulta juntando texto recebido do usuário:
-
-```js
-const sql = "SELECT * FROM usuarios WHERE nome = '" + nome + "'";
-```
-
-Diga:
-
-> “Aqui, o valor digitado deixa de ser apenas um dado e pode alterar a estrutura da consulta. Em um laboratório local, podemos demonstrar isso com dados fictícios para perceber o comportamento. Não vamos usar esse tipo de teste contra sistemas reais.”
-
-Mostre a forma correta, usando consulta parametrizada:
-
-```js
-const sql = "SELECT * FROM usuarios WHERE nome = ?";
-db.query(sql, [nome]);
-```
-
-Reforce que a correção não é simplesmente bloquear alguns caracteres. A defesa principal é separar código de dados, usar parâmetros, validar entradas, aplicar menor privilégio e registrar eventos relevantes.
+> Pensem em um restaurante. Uma pessoa prepara o prato e outra entrega ao cliente. Se elas não conversam, o prato pode sair errado ou atrasar. O problema não é só de quem cozinha ou só de quem entrega: é do fluxo inteiro.
 
 **Pergunte:**
 
-- “Por que escapar caracteres sozinho não é uma defesa completa?”
-- “O que muda quando a consulta usa parâmetros?”
-- “Se um usuário comum conseguir acessar dados de administrador, qual controle falhou?”
+- Onde pode surgir uma “parede” entre equipes?
+- O que melhora quando uma equipe conhece o impacto do próprio trabalho?
 
-**Atividade:** peça que cada grupo escolha uma falha e explique: causa, possível impacto e uma medida preventiva.
+**Fechamento do bloco:**
 
-### 40–60 min — Semana 16: IPv4, sub-redes e CIDR
+> Então, a primeira ideia é: DevOps diminui a distância entre criar, entregar e manter um produto funcionando.
 
-**O que falar:**
+### 3. Atividade de observação — 10 minutos
 
-> “Um endereço IPv4 identifica um endereço lógico em uma rede. A máscara define qual parte representa a rede e qual parte pode identificar dispositivos dentro dela.”
+Peça que a turma pense em um trabalho em grupo, mesmo que não seja de programação.
 
-Explique a notação CIDR. Em `192.168.10.0/24`, os 24 primeiros bits representam a rede. Uma rede `/24` possui 256 endereços totais, normalmente 254 utilizáveis em uma rede tradicional, porque há endereço de rede e broadcast.
+**Diga:**
 
-Apresente exemplos simples:
+> Em duplas, escolham uma atividade simples e desenhem três etapas: quem cria, quem entrega e quem recebe o resultado. Agora marquem onde uma informação pode se perder.
 
-- `/24`: rede maior, menos divisão;
-- `/26`: quatro blocos dentro de uma `/24`;
-- `/30`: bloco pequeno, comum em enlaces ponto a ponto.
+Dê alguns minutos. Depois pergunte a duas duplas o que encontraram. Relacione as respostas com comunicação, responsabilidade compartilhada e feedback.
 
-**Pergunte:**
+### 4. CALMS — 35 minutos
 
-- “Por que separar uma rede em sub-redes pode melhorar a segurança?”
-- “O que poderia acontecer se todos os dispositivos ficassem na mesma rede?”
-
-### 60–80 min — Semana 17: Gestão de riscos
+No site, clique em **CALMS na prática**.
 
 **O que falar:**
 
-> “Risco não é apenas a existência de uma ameaça. Ele aparece quando uma ameaça pode explorar uma vulnerabilidade e causar um impacto.”
+> CALMS é um modelo para observar se uma equipe está construindo uma cultura DevOps. Cada letra chama nossa atenção para um aspecto: Culture, Automation, Lean, Measurement e Sharing.
 
-Use a relação didática:
+Explique um de cada vez, sem pressa:
 
-> **Risco = probabilidade × impacto**
+- **Culture — Cultura:** confiança, colaboração e responsabilidade compartilhada. Não é procurar culpados quando algo falha.
+- **Automation — Automação:** deixar tarefas repetitivas para processos automáticos, como testes e publicação.
+- **Lean — Fluxo enxuto:** reduzir esperas, retrabalho e tarefas que não entregam valor.
+- **Measurement — Medição:** acompanhar sinais para decidir melhor, como tempo de entrega e frequência de falhas.
+- **Sharing — Compartilhamento:** dividir conhecimento, decisões e aprendizados para não criar dependência de uma única pessoa.
 
-Diferencie:
+**O que reforçar:**
 
-- ameaça: algo que pode causar dano;
-- vulnerabilidade: uma fraqueza;
-- impacto: o prejuízo se o evento acontecer;
-- controle: uma medida para reduzir probabilidade ou impacto.
-
-**Exemplo:** uma conta sem autenticação multifator pode facilitar acesso indevido a um sistema importante.
-
-**Pergunte:**
-
-- “Qual risco merece atenção primeiro: um evento provável com impacto médio ou um evento raro com impacto enorme?”
-- “Todo risco precisa ser eliminado?”
-
-Explique que organizações podem evitar, reduzir, transferir ou aceitar um risco, desde que a decisão seja consciente e registrada.
-
-### 80–100 min — Semana 18: LGPD
-
-**O que falar:**
-
-> “A LGPD trata de dados pessoais e estabelece regras para que eles sejam coletados e usados de maneira adequada. O foco não é impedir o uso de dados, mas exigir responsabilidade e transparência.”
-
-Explique os conceitos:
-
-- dado pessoal: identifica ou pode identificar alguém;
-- dado pessoal sensível: como saúde, biometria, religião ou origem racial;
-- titular: a pessoa a quem o dado se refere;
-- controlador: decide sobre o tratamento;
-- operador: trata dados seguindo instruções.
-
-Apresente princípios importantes: finalidade, necessidade, transparência, segurança e prevenção. Comente que a organização deve coletar apenas o necessário e proteger o que armazena.
+> CALMS não é uma lista para marcar e dizer “acabamos”. Ele serve para fazer perguntas honestas sobre o jeito que a equipe trabalha.
 
 **Pergunte:**
 
-- “Uma empresa precisa guardar todos os dados que consegue coletar?”
-- “Qual seria uma justificativa clara para pedir um telefone?”
-- “Qual é a diferença entre dado pessoal e dado pessoal sensível?”
+- Qual desses pontos parece mais forte em uma equipe saudável?
+- Qual deles costuma ser esquecido?
+- Automatizar uma tarefa ruim resolve o problema ou apenas faz a tarefa ruim mais rápido?
 
-### 100–120 min — Semana 19: Nuvem, IAM e criptografia em trânsito
+### 5. Laboratório visual — 15 minutos
 
-**O que falar:**
+Vá até **Laboratório rápido** e execute os três cenários.
 
-> “Usar nuvem não elimina a responsabilidade de segurança. Parte da infraestrutura é administrada pelo provedor, mas permissões, identidades, dados e configurações continuam exigindo cuidado.”
+**Antes de clicar, fale:**
 
-Explique IAM como gestão de identidades e permissões:
+> Agora vamos transformar as ideias em um fluxo visível. Estes exemplos são uma simulação, não precisamos decorar código. Observem o que acontece quando mudamos a forma de trabalhar.
 
-- quem é a pessoa ou serviço;
-- o que pode fazer;
-- em qual recurso;
-- em qual momento.
+Execute **Colaboração** e diga:
 
-Apresente o princípio do menor privilégio: conceder apenas o necessário.
+> Aqui, desenvolvimento e operações aparecem como partes do mesmo resultado. Não significa que as funções desapareceram; significa que a entrega é combinada.
 
-Sobre criptografia em trânsito:
+Execute **Automação** e diga:
 
-> “Quando os dados viajam entre cliente e servidor, o HTTPS ajuda a impedir leitura e alteração por terceiros no caminho. Isso não corrige uma senha fraca nem uma permissão excessiva, mas protege a comunicação.”
+> A automação cria um caminho repetível. Quando o caminho é o mesmo, fica mais fácil encontrar o ponto que falhou e evitar erros manuais.
 
-**Pergunte:**
+Execute **Feedback** e diga:
 
-- “Por que um serviço automatizado não deveria usar uma conta com acesso total?”
-- “Qual problema o HTTPS resolve e qual problema ele não resolve?”
+> Feedback é um sinal para escolher o próximo passo. Ele não serve para apontar um culpado; serve para aprendermos antes que o problema fique maior.
 
-### 120–140 min — Semana 20: Backup, recuperação e continuidade
+### 6. Feedback contínuo — 35 minutos
 
-**O que falar:**
+No site, clique no terceiro bloco, **Feedback contínuo**.
 
-> “Backup não é simplesmente copiar arquivos. Precisamos saber o que será recuperado, em quanto tempo e com qual perda aceitável de dados.”
+**O que explicar:**
 
-Explique:
+> Feedback contínuo é receber informações durante o trabalho, e não apenas no final. Pode vir de testes, métricas, usuários, colegas ou de uma retrospectiva.
+>
+> Um feedback útil é rápido, respeitoso e acionável. Ele responde: o que observamos, por que isso importa e qual pequeno passo podemos testar agora?
+>
+> Em DevOps, falhas podem acontecer. O objetivo não é fingir que elas não existem. É criar um ambiente em que a equipe consiga perceber, comunicar e aprender sem esconder o problema.
 
-- RPO: quanto de dados podemos perder;
-- RTO: quanto tempo podemos levar para voltar;
-- backup completo, incremental e cópia fora do ambiente principal;
-- testes de restauração;
-- plano de continuidade e comunicação durante incidentes.
+**Diferencie opinião e sinal:**
 
-Dê o exemplo: se o RPO é de 15 minutos, um backup diário não atende ao objetivo.
+> “Acho que está lento” é uma percepção que merece investigação. “O tempo médio aumentou de 2 para 6 segundos” é um sinal mais concreto. Os dois podem iniciar uma conversa, mas a medição ajuda a escolher melhor.
 
 **Pergunte:**
 
-- “De que adianta ter backup se nunca testamos a restauração?”
-- “Qual serviço deveria voltar primeiro em uma empresa: o site institucional ou o sistema de pedidos?”
-- “Quem precisa saber o que fazer durante uma interrupção?”
+- Que feedback vocês gostariam de receber mais cedo em um trabalho?
+- Como podemos falar de um erro sem transformar a conversa em acusação?
+- Uma métrica pode ser mal utilizada? Como?
 
-### 140–150 min — Quiz e encerramento
+**Mini-retrospectiva:** peça três respostas rápidas:
 
-Peça que os alunos respondam ao quiz do site individualmente ou em duplas. Depois, discuta as respostas sem transformar o momento em uma prova.
+1. O que funcionou?
+2. O que atrapalhou?
+3. Qual mudança pequena testaríamos na próxima vez?
 
-**O que falar no encerramento:**
+### 7. Quiz e encerramento — 10 minutos
 
-> “Hoje vimos que segurança é um conjunto de decisões. Uma aplicação precisa tratar entradas; uma rede precisa ser organizada; riscos precisam ser avaliados; dados pessoais precisam de finalidade e proteção; acessos devem ser limitados; e a recuperação precisa ser praticada. A pergunta mais importante não é ‘está seguro?’, mas ‘o que estamos protegendo, contra qual cenário e como saberemos se a proteção funciona?’”
+Vá até **Quiz**. Diga que as perguntas servem para perceber o que ficou claro, não para constranger ninguém. Dê alguns minutos para respostas individuais ou em duplas e depois corrija comentando cada explicação.
 
-**Pergunta final:**
+**Fechamento para falar:**
 
-- “Qual medida simples vocês aplicariam primeiro em um sistema fictício e por quê?”
+> Para encerrar, quero que vocês levem três ideias. Primeiro: DevOps é uma forma colaborativa de trabalhar. Segundo: CALMS ajuda a observar cultura, automação, fluxo, medição e compartilhamento. Terceiro: feedback contínuo permite aprender e melhorar enquanto o trabalho acontece.
+>
+> Se vocês esquecerem os nomes, tudo bem. Lembrem da pergunta principal: como podemos entregar valor com mais colaboração, menos desperdício e mais aprendizado?
 
----
+## Respostas do quiz para o professor
 
-## Dicas para conduzir o quiz
+1. **Unir colaboração e entrega.** DevOps conecta criação, publicação e operação.
+2. **Automação.** O “A” de CALMS representa Automation.
+3. **Rápido e acionável.** Feedback deve ajudar a escolher um próximo passo.
+4. **Apoiar decisões.** Métricas são sinais para aprender, não instrumentos de punição.
 
-- Leia a pergunta e dê alguns segundos antes de mostrar as alternativas.
-- Peça que os alunos justifiquem a escolha, não apenas apontem uma letra.
-- Evite dar pistas pelo tamanho das respostas; alternativas devem ser curtas e parecidas.
-- Quando houver uma resposta errada, pergunte qual parte da ideia estava correta antes de explicar o ajuste.
-- Reforce que o exemplo de SQL Injection é exclusivamente educacional e deve ficar restrito ao laboratório autorizado.
+## Dicas para você durante a aula
 
-## Mensagem pronta para iniciar a aula
+- Se não souber responder algo, diga: “Essa é uma boa pergunta; vamos investigar o princípio por trás dela.”
+- Evite prometer que DevOps resolve tudo. Ele ajuda a revelar problemas e melhorar o fluxo.
+- Use exemplos do cotidiano antes de usar termos técnicos.
+- Dê alguns segundos de silêncio depois de uma pergunta. A turma precisa de tempo para pensar.
+- Não transforme o quiz em competição. Valorize o raciocínio e peça que expliquem o motivo da escolha.
+- O material usa exemplos simples de código apenas para mostrar fluxo. A aula é sobre cultura e prática de trabalho, não sobre decorar JavaScript.
 
-> “Bom dia, alunos. Hoje vamos estudar segurança da informação de um jeito prático. Vamos observar como aplicações, redes, dados pessoais, serviços em nuvem e backups se relacionam. Durante a aula, vou fazer perguntas e vocês também vão analisar situações. Não precisam saber tudo agora: o objetivo é aprender a identificar problemas e escolher uma proteção coerente.”
+## Estrutura do projeto
 
-## Mensagem pronta para finalizar
+- `app/page.tsx`: site interativo, blocos, laboratório e quiz.
+- `app/globals.css`: identidade visual e responsividade.
+- `README.md`: este roteiro de fala para a aula.
 
-> “Obrigado pela participação. Segurança não depende de uma ferramenta única. Ela depende de processos, escolhas técnicas e comportamento das pessoas. Continuem fazendo perguntas e testando ideias apenas em ambientes autorizados e preparados para isso.”
-接
+O site funciona como uma página estática no navegador: não precisa de banco de dados nem de login para ser apresentado em sala.
