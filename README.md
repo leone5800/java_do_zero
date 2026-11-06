@@ -1,470 +1,545 @@
-# Semana 22 · Infraestrutura como Código com Terraform
+# Semana 21 · Virtualização de Rede e SDN
 
-Site de apoio para uma aula de **150 minutos** sobre Terraform. O site é o que os alunos veem no projetor. **Este README é só seu**: aqui está o roteiro do que falar, o que perguntar e o que responder. Nada do que você vai dizer está escrito no site.
+Site de apoio (HTML, CSS e JS puros) + roteiro completo para uma aula de **150 minutos**.
 
-> Como usar: deixe o site aberto no projetor e este README no seu notebook ou celular. Cada bloco abaixo diz **o que mostrar** (no site) e **o que falar** (aqui).
+- **Aula 1:** Virtual switch, vRouter e plano de controle vs. plano de dados
+- **Aula 2:** SDN em nuvem pública
+- **Aula 3:** Laboratório Mininet
+- **Quiz:** 25 perguntas com trechos de código e terminal
 
 ---
 
-## Antes da aula (5 minutos)
+## Como abrir o site
 
-- Abra o site e confira se os três consoles respondem (clique em `terraform init`).
-- Teste o quiz: responda a primeira pergunta para ver se a explicação aparece.
-- Respire. Você não precisa saber tudo. O site tem simuladores, então nada pode dar errado de verdade, e a frase mais poderosa de um professor é: **"boa pergunta, vamos testar no console e ver juntos"**.
+O site fica na pasta `public/`. Tem três jeitos de abrir:
 
-### O "mini dicionário" para você
+1. **Mais fácil:** dê dois cliques em `public/index.html`. Abre direto no navegador, não precisa de internet (só as fontes ficam diferentes se estiver offline).
+2. **Pelo v0 / Vercel:** clique em *Publish* e use o link gerado. Dá para passar o link para os alunos acompanharem pelo celular.
+3. **Servidor local:** `pnpm install` e depois `pnpm dev` → abre em `http://localhost:3000`.
 
-Se travar, volte aqui. São as 8 ideias que seguram a aula inteira:
+### O que tem no site
 
-| Termo | Explicação em uma frase |
+| Seção | O que faz |
 |---|---|
-| **IaC** | Em vez de clicar no painel da nuvem, você escreve a infraestrutura em um arquivo de texto. |
-| **Terraform** | A ferramenta que lê esses arquivos e cria a infraestrutura na nuvem. |
-| **HCL** | A "língua" dos arquivos `.tf`. Parece um JSON mais amigável. |
-| **Provider** | Um plugin que ensina o Terraform a falar com uma nuvem (AWS, Azure, Google...). |
-| **Resource** | Uma peça de infraestrutura: uma VPC, um servidor, um banco. |
-| **State** | A "memória" do Terraform: o arquivo que diz o que ele já criou. |
-| **Módulo** | Uma pasta de código reaproveitável. Funciona como uma função. |
-| **Workspace** | Mesmo código, mas com states separados (dev, prod...). |
+| Cronômetro (topo) | Clique em **Iniciar** no começo da aula. Ele mostra em qual parte do roteiro você deveria estar e quanto falta. |
+| Agenda | Os blocos da aula. Clicar num item leva para a parte certa do site. |
+| Simulador SDN (Aula 1) | Mostra o switch perguntando ao controlador (`PACKET_IN`) e o controlador instalando a regra (`FLOW_MOD`). |
+| Diagrama da VPC (Aula 2) | Clique em cada peça (Internet Gateway, NAT, sub-rede...) e aparece a explicação ao lado. |
+| Calculadora CIDR (Aula 2) | Digita `10.0.1.0/24` e ela mostra quantos IPs cabem. |
+| Testador de Security Group (Aula 2) | Liga/desliga regras de firewall e testa se uma conexão passa ou é bloqueada. |
+| Terminal Mininet (Aula 3) | Um terminal falso que responde aos comandos do Mininet. Não precisa instalar nada. |
+| Quiz | Uma pergunta por vez. Os alunos escolhem, você clica em **Confirmar** e aparece a explicação. Teclas 1 a 4 escolhem, Enter confirma. |
 
-**Analogia que funciona sempre:** o Terraform é um arquiteto com uma planta. Você entrega a planta (código), ele compara com a obra (nuvem) e só faz o que está faltando. O state é o caderninho dele, onde anota o que já construiu.
+> **Dica:** no quiz, as alternativas mudam de posição toda vez e todas têm o mesmo tamanho. Não adianta "chutar a maior". Peça para a turma votar levantando a mão (A, B, C ou D) antes de você clicar em Confirmar.
 
 ---
 
-## Linha do tempo
+## Visão geral do tempo
 
-| Minutos | Bloco | Onde estar no site |
+| Minuto | Bloco | Onde no site |
 |---|---|---|
-| 000–005 | Abertura | Topo da página |
-| 005–040 | **Aula 1** · Sintaxe HCL e providers | `#aula-1` |
-| 040–075 | **Aula 2** · Módulos e workspaces | `#aula-2` |
-| 075–085 | Intervalo | Deixe a Agenda aberta |
-| 085–120 | **Aula 3** · Laboratório 2-tier | `#aula-3` |
-| 120–145 | Quiz | `#quiz` |
-| 145–150 | Encerramento | Topo da página |
+| 0 – 10 | Abertura e quebra-gelo | Topo |
+| 10 – 30 | Aula 1: vSwitch e vRouter | Aula 1 |
+| 30 – 45 | Aula 1: controle vs. dados + simulador | Simulador SDN |
+| 45 – 55 | Quiz da Aula 1 (8 perguntas) | Quiz → filtro "Aula 1" |
+| 55 – 65 | **Intervalo** | |
+| 65 – 90 | Aula 2: SDN na nuvem, VPC | Aula 2 |
+| 90 – 100 | Aula 2: CIDR e Security Group | Calculadora + Testador |
+| 100 – 108 | Quiz da Aula 2 (8 perguntas) | Quiz → filtro "Aula 2" |
+| 108 – 138 | Aula 3: Laboratório Mininet | Terminal |
+| 138 – 145 | Quiz da Aula 3 (9 perguntas) | Quiz → filtro "Aula 3" |
+| 145 – 150 | Encerramento | Topo |
+
+**Legenda do roteiro:**
+- **[FALE]** o que você diz (pode ler, pode adaptar com suas palavras)
+- **[PERGUNTE]** pergunta para a turma (espere uns segundos, deixe eles pensarem)
+- **[RESPOSTA ESPERADA]** o que você quer ouvir
+- **[NO SITE]** o que clicar
+- **[PARA VOCÊ ENTENDER]** a explicação técnica, para você não ser pego de surpresa
 
 ---
 
-## 000–005 · Abertura
+## ROTEIRO
 
-**Mostre:** o topo do site (título e a tela preta do terminal).
+### 0 – 10 min · Abertura e quebra-gelo
 
-**Fale (do seu jeito):**
+**[NO SITE]** deixe o topo da página aberto no projetor. Clique em **Iniciar** no cronômetro.
 
-> "Bom dia, pessoal! Tudo bem com vocês? Hoje a aula é diferente: vocês vão **mexer** em vez de só ouvir. Eu vou usar este site, que tem uns consoles simulados onde vocês vão digitar comandos de Terraform sem risco nenhum de estragar nada.
+**[FALE]**
+> "Bom dia, pessoal! Tudo bem com vocês? Hoje a gente vai falar de um assunto que parece complicado pelo nome, mas que vocês usam todo santo dia sem perceber: **virtualização de rede e SDN**.
 >
-> Eu quero começar com uma pergunta. Quem aqui já criou uma máquina virtual ou um servidor clicando num painel, tipo AWS, Azure ou até um servidor de Minecraft? ... Ótimo. Agora imagina que você precisa criar **dez** iguais. E depois mais dez em outro país. E se alguém clicar errado? Pois é, isso aqui resolve esse problema: a gente **escreve** a infraestrutura em vez de clicar.
->
-> Hoje a gente vai em três passos: primeiro a sintaxe e como o Terraform conversa com a nuvem, depois como organizar e reaproveitar código com módulos e workspaces, e por fim a gente monta uma stack completa, aplicação e banco de dados. No final tem um quiz valendo orgulho."
+> A aula de hoje vai ter três partes. Primeiro, a gente vai entender quais são as peças de uma rede quando tudo roda dentro de um computador. Depois, a gente vai ver como isso funciona na nuvem, tipo Amazon e Microsoft. E no final, a gente vai brincar num laboratório de rede chamado Mininet. Entre uma parte e outra tem quiz, então prestem atenção que vale ponto de orgulho."
 
-**Pergunte (rápido, só para aquecer):**
+**[PERGUNTE]**
+> "Quando vocês abrem o Instagram ou a Netflix, o celular manda um pedido para algum lugar. Alguém tem ideia de por quantos equipamentos esse pedido passa até chegar no servidor?"
 
-- *"Quem já ouviu falar de Terraform?"* (levantar a mão basta, não precisa de resposta certa).
+**[RESPOSTA ESPERADA]** qualquer chute serve. Pode ser "uns 5", "uns 20"... A ideia é eles pensarem.
 
-**Mostre:** role até a **Agenda** e passe os olhos pelos blocos. Diga que haverá um intervalo de 10 minutos.
+**[FALE]**
+> "Passa por vários: o roteador da casa de vocês, os equipamentos da operadora, roteadores no meio do caminho... e quando chega na Amazon ou no Google, sabe o que acontece? Muitos desses 'equipamentos' **nem existem fisicamente**. São programas. Software fingindo ser switch, roteador, firewall. É isso que a gente vai entender hoje."
+
+**[PERGUNTE]**
+> "Antigamente, para ouvir música, tirar foto e usar GPS, você precisava de três aparelhos. Hoje precisa de quantos?"
+
+**[RESPOSTA ESPERADA]** "Um, o celular."
+
+**[FALE]**
+> "Exatamente. O rádio, a câmera e o GPS viraram **apps** dentro do celular. A virtualização de rede é a mesma coisa: o switch, o roteador e o firewall viraram programas dentro de um servidor. Guardem essa ideia."
 
 ---
 
-## 005–040 · Aula 1: Sintaxe HCL e providers (35 min)
+### 10 – 30 min · Aula 1: vSwitch e vRouter
 
-**Mostre:** vá para `#aula-1`.
+**[NO SITE]** clique em **Aula 1** no menu. Mostre os três cartões.
 
-### 005–012 · O que é IaC (7 min)
+**[PARA VOCÊ ENTENDER]**
+- **Virtualização de rede:** transformar funções de rede (que eram hardware) em software. Rodam em servidores comuns.
+- **Virtual switch (vSwitch):** switch feito de software. Liga as VMs (máquinas virtuais) que estão no mesmo servidor. Trabalha na **camada 2** do modelo OSI, ou seja, olha o **endereço MAC**. O mais famoso é o **Open vSwitch (OVS)**, que é o que o Mininet usa.
+- **Virtual router (vRouter):** roteador em software. Liga **redes diferentes** (por exemplo, 10.0.1.0 e 10.0.2.0). Trabalha na **camada 3**, olha o **endereço IP** e a tabela de rotas. Exemplos: VyOS, pfSense.
+- **Hypervisor:** o programa que cria e roda as VMs (VMware, Hyper-V, KVM, VirtualBox).
 
-**Mostre:** os quatro cards (IaC, Declarativo, HCL, Provider).
+**[FALE]**
+> "Imaginem um servidor bem parrudo dentro de um datacenter. Dentro dele rodam, sei lá, 30 máquinas virtuais. Cada uma tem a sua placa de rede virtual. Pergunta: como essas 30 VMs conversam entre si se não tem cabo nenhum ligando elas?"
 
-**Fale:**
+**[PERGUNTE]**
+> "Alguém chuta?"
 
-> "Vamos começar pelo nome: **Infraestrutura como Código**. A ideia é simples: tudo o que você faria clicando no painel da nuvem, você escreve num arquivo. E por que isso é bom? Porque arquivo dá pra guardar no Git, dá pra revisar, dá pra copiar e dá pra refazer igualzinho daqui a seis meses.
+**[RESPOSTA ESPERADA]** "Tem um switch dentro do servidor" ou algo parecido.
+
+**[FALE]**
+> "Isso! Tem um **switch virtual**, um programa que faz exatamente o que um switch físico faz: recebe o quadro de uma VM, olha o endereço MAC de destino e entrega para a VM certa. O mais famoso se chama **Open vSwitch**, e é ele que a gente vai usar no laboratório."
+
+**[NO SITE]** role até o diagrama "Servidor físico (hypervisor)".
+
+**[FALE]**
+> "Olhem esse desenho. VM 1 e VM 2 estão na rede 10.0.1. Elas estão na mesma rede, então o vSwitch resolve. Agora a VM 3 está na rede 10.0.**2**. É outra rede. O switch não resolve isso sozinho, porque switch só entende MAC. Quem liga redes diferentes?"
+
+**[PERGUNTE]**
+> "Quem liga uma rede com outra rede?"
+
+**[RESPOSTA ESPERADA]** "O roteador."
+
+**[FALE]**
+> "Isso. E se o switch é virtual, o roteador também pode ser: o **vRouter**. Ele olha o **IP** de destino, consulta a tabela de rotas e manda para a rede certa.
 >
-> O Terraform é **declarativo**. Isso é a palavra mais importante da aula. Declarativo quer dizer que eu **não** falo 'crie isso, depois crie aquilo'. Eu falo 'eu quero que exista uma VPC com este endereço'. O *como* chegar lá é problema do Terraform.
->
-> Pensa num pedido de pizza: você diz 'quero uma de calabresa', não explica como abrir a massa."
+> Resumindo para vocês anotarem:
+> - **vSwitch** = camada 2 = MAC = liga coisas da **mesma** rede.
+> - **vRouter** = camada 3 = IP = liga redes **diferentes**."
 
-**Pergunte:**
+**[PERGUNTE PARA FIXAR]**
+> "Se eu quero ligar o computador do laboratório 1 com o do laboratório 2, que estão em redes diferentes, eu preciso de quê?"
 
-- *"Se eu rodar o mesmo código duas vezes, vocês acham que vai criar duas VPCs?"*
-  - **Resposta esperada:** vai haver palpite dos dois lados. Não confirme agora. Diga: **"guardem essa dúvida, a gente testa no console daqui a pouco."** (Ela volta na pergunta 6 do quiz.)
-
-### 012–020 · Anatomia de um bloco HCL (8 min)
-
-**Mostre:** a seção "Anatomia de um bloco" (o código à esquerda e os cards à direita).
-
-**Fale:**
-
-> "Olhem esse bloco. Todo bloco em HCL tem a mesma cara: uma **palavra-chave** (aqui `resource`), dois **rótulos** entre aspas e um corpo entre chaves.
->
-> O primeiro rótulo, `aws_vpc`, é o **tipo**. Ele vem do provider e diz *o que* eu quero criar. Reparem que começa com `aws_`: é assim que a gente sabe de qual provider vem.
->
-> O segundo rótulo, `main`, é o **nome local**. Esse nome eu invento. Ele **só existe dentro do código**, a AWS nunca vai saber que existe um 'main'. Serve para eu apontar para esse recurso mais tarde.
->
-> Lá dentro, as linhas com `=` são os **argumentos**: a configuração do recurso."
-
-**Pergunte:**
-
-- *"Se eu quiser usar o ID dessa VPC em outro recurso, como eu escrevo?"*
-  - **Resposta:** `aws_vpc.main.id`. Explique o padrão: **tipo . nome . atributo**.
-- *"Esse 'main' pode ser qualquer palavra?"*
-  - **Resposta:** pode. `principal`, `minha_vpc`, `banana`. É só um apelido local (sem espaços e sem começar com número).
-
-> Dica para você: o exemplo da pergunta 2 do quiz é exatamente este. Se eles entenderem agora, acertam depois.
-
-### 020–026 · O projeto em arquivos e os providers (6 min)
-
-**Mostre:** as abas `main.tf`, `variables.tf` e `outputs.tf` na seção "Nosso primeiro projeto".
-
-**Fale:**
-
-> "Agora o projeto inteiro. Notem que eu dividi em arquivos, mas isso é só organização: o Terraform lê **todos** os `.tf` da pasta como se fossem um só.
->
-> No `main.tf`, o primeiro bloco, `terraform`, diz qual versão eu uso e quais providers preciso. O **provider** é como um tradutor: o Terraform fala 'Terraformês', a AWS fala 'API da AWS', e o provider traduz. Se amanhã eu quiser usar Azure, só troco o tradutor.
->
-> Depois vem o bloco `provider "aws"` com a região, e só então o meu recurso.
->
-> No `variables.tf` ficam as **entradas**, como parâmetros de uma função. No `outputs.tf` ficam as **saídas**: o que eu quero que o Terraform me mostre no final, tipo o ID da VPC."
-
-**Pergunte:**
-
-- *"Pra que serve o bloco `provider`?"*
-  - **Resposta:** dizer com qual nuvem e região o Terraform vai conversar. (Pergunta 4 do quiz.)
-- *"Por que separar em variables e main, em vez de escrever o valor direto?"*
-  - **Resposta:** para reutilizar. Mudar a região ou o CIDR sem mexer na lógica.
-
-### 026–031 · init, plan, apply (5 min)
-
-**Mostre:** os quatro cards "passo 1 ao 4".
-
-**Fale:**
-
-> "O ciclo de vida do Terraform são três comandos que vocês vão digitar mil vezes.
->
-> **init**: 'prepara a casa'. Baixa o provider. Só precisa rodar na primeira vez, ou quando muda de provider.
->
-> **plan**: 'me mostra o que você ia fazer'. É um ensaio. Não mexe em nada, só lê e compara.
->
-> **apply**: 'pode fazer'. Aí sim cria de verdade.
->
-> E o **destroy** é o botão de desligar tudo, importantíssimo para não gastar dinheiro à toa."
-
-**Pergunte:**
-
-- *"Qual dos três é o único que realmente altera a nuvem?"*
-  - **Resposta:** o `apply` (e o `destroy`). O plan é só leitura.
-- *"Qual é o primeiro comando que rodo num projeto novo?"*
-  - **Resposta:** `terraform init`.
-
-### 031–040 · Console: seu primeiro recurso (9 min)
-
-**Mostre:** o console da Aula 1 (o simulador).
-
-**Fale:**
-
-> "Agora é a vez de vocês. Eu vou digitar e vocês me dizem o que acham que vai acontecer. Quem acertar ganha o direito de apertar o botão."
-
-**Roteiro do console (siga nesta ordem):**
-
-1. Clique em **`terraform apply`** *sem rodar o init antes*.
-   - **Pergunte:** *"Deu certo? Por quê?"* → **Resposta:** deu erro porque falta o `init`: o provider ainda não foi baixado.
-2. Rode **`terraform init`**. Aponte a linha *Installing hashicorp/aws*: "vejam, ele baixou o tradutor da AWS".
-3. Rode **`terraform plan`**. Mostre as linhas verdes com `+` e o resumo `Plan: 1 to add`.
-   - **Pergunte:** *"Isso criou alguma coisa na AWS?"* → **Resposta:** não, é só o ensaio.
-4. Rode **`terraform apply`**. Mostre o ID gerado (`vpc-0a1b...`) e o `Apply complete!`.
-5. Rode **`terraform apply`** de novo, sem mudar nada.
-   - **Pergunte:** *"Lembram da minha dúvida lá do começo? O que vai acontecer?"* → **Resposta:** `No changes`. Nada é criado de novo. Isso se chama **idempotência** (explique como "rodar 10 vezes dá o mesmo resultado que rodar 1").
-6. Rode **`terraform state list`**. Fale: "esse é o caderninho do Terraform, ele sabe que existe o `aws_vpc.main`".
-7. Rode **`terraform destroy`** e feche o ciclo.
-
-**Fechamento da Aula 1 (fale):**
-
-> "Resumindo: escrevo o código, o `init` prepara, o `plan` mostra, o `apply` executa, e o Terraform guarda tudo no **state**. Se vocês entenderam isso, já entenderam 70% do Terraform."
+**[RESPOSTA ESPERADA]** "Um roteador / vRouter."
 
 ---
 
-## 040–075 · Aula 2: Módulos e workspaces (35 min)
+### 30 – 45 min · Aula 1: Plano de controle vs. plano de dados
 
-**Mostre:** vá para `#aula-2`.
+**[NO SITE]** role até "Os dois cérebros de todo equipamento de rede".
 
-### 040–045 · Ponte com a aula anterior (5 min)
+**[PARA VOCÊ ENTENDER]**
+- Todo switch ou roteador tem duas "partes" lógicas:
+  - **Plano de controle (control plane):** é quem **decide**. Calcula as rotas, monta as tabelas, conversa com outros equipamentos usando protocolos como OSPF, BGP e STP. É mais lento, porque "pensa".
+  - **Plano de dados (data plane ou forwarding plane):** é quem **executa**. Pega o pacote, olha a tabela que já está pronta e manda para a porta certa. É muito rápido (nanossegundos), porque não pensa, só consulta.
+- **Na rede tradicional:** cada equipamento tem os dois planos dentro dele. Se você tem 100 switches, tem 100 "cérebros" separados e precisa configurar um por um.
+- **No SDN (Software Defined Networking):** o plano de controle é **tirado** de dentro dos switches e colocado num **controlador central** (um software). Os switches ficam só com o plano de dados. O controlador manda regras para eles usando um protocolo chamado **OpenFlow**.
+- **Tabela de fluxos (flow table):** é a tabela dentro do switch SDN. Cada linha é uma regra: "se o pacote for para X (match), faça Y (ação)".
+- **PACKET_IN:** mensagem do switch para o controlador: "chegou um pacote e eu não tenho regra, o que eu faço?"
+- **FLOW_MOD:** resposta do controlador: "instala essa regra aqui e segue a vida".
 
-**Fale:**
-
-> "Agora imagina que o seu chefe pede: 'cria uma VPC para a equipe de dev, outra para homologação e outra para produção'. Vocês copiariam e colariam o código três vezes? Funciona... até alguém mudar uma das cópias e esquecer das outras. Existem **duas** soluções para isso, e cada uma resolve um problema diferente:
+**[FALE]**
+> "Agora vem a parte mais importante da aula, então prestem atenção. Todo equipamento de rede tem dois 'cérebros'. Vou usar o trânsito para explicar.
 >
-> **Módulos** resolvem *'não quero repetir código'*.
-> **Workspaces** resolvem *'quero o mesmo código em ambientes separados'*."
+> Quando vocês vão para algum lugar de carro com o GPS ligado, tem duas coisas acontecendo. O **GPS** calcula o caminho: 'vire à direita em 200 metros'. E o **motorista** executa: vira o volante. O GPS é o **plano de controle**: ele decide. O motorista é o **plano de dados**: ele executa."
 
-**Pergunte:**
+**[PERGUNTE]**
+> "Qual dos dois precisa ser mais rápido? O GPS calculando a rota ou o motorista virando o volante?"
 
-- *"Na programação normal, quando vocês têm um trecho repetido, o que fazem?"*
-  - **Resposta:** criam uma **função**. Diga: **"o módulo é a função do Terraform"**.
+**[RESPOSTA ESPERADA]** "O motorista." (Se alguém disser o GPS, tudo bem, explique.)
 
-### 045–060 · Módulos (15 min)
+**[FALE]**
+> "O motorista. O GPS pode demorar uns segundos para recalcular, tudo bem. Mas na hora de virar, tem que ser na hora. Na rede é igual: o plano de dados encaminha milhões de pacotes por segundo, então ele só consulta uma tabela pronta. Quem monta a tabela, com calma, é o plano de controle."
 
-**Mostre:** os três cards (`variable`, `resource`, `output`), a árvore de pastas e as abas do módulo.
+**[NO SITE]** role até o quadro azul "A grande ideia do SDN".
 
-**Fale:**
-
-> "Um módulo, no fundo, é só uma **pasta com arquivos .tf**. Só isso. Nada de mágica. Na verdade, a pasta onde vocês já estavam trabalhando já é um módulo, o chamado *root module*.
+**[FALE]**
+> "Agora, o pulo do gato. Numa rede tradicional, cada switch tem o seu próprio GPS. Se a empresa tem 200 switches, são 200 GPS, cada um pensando sozinho, e o técnico tem que configurar um por um.
 >
-> Vejam a árvore de pastas: dentro de `modules/vpc` tem o código do módulo. Pensem nele como uma função com três partes:
->
-> - **variable** é o que a função **recebe** (os parâmetros);
-> - **resource** é o que ela **faz** (o corpo);
-> - **output** é o que ela **devolve** (o return).
->
-> Agora olhem na aba `main.tf (root)`. Aqui eu **chamo** o módulo com um bloco `module`. Reparem: `source` diz onde está a pasta, e `cidr` e `name` são os argumentos que eu passo. Cada um desses argumentos precisa existir como `variable` dentro do módulo.
->
-> E aqui o ponto onde todo mundo escorrega: de **fora**, eu não enxergo o que tem dentro do módulo. É uma caixa fechada. Se eu quiser o ID da VPC, o módulo precisa **devolver** com um `output`, e eu leio com `module.rede.vpc_id`."
+> O **SDN**, que significa Software Defined Networking, ou rede definida por software, fala o seguinte: 'vamos tirar o GPS de dentro de cada switch e colocar um GPS só, central, que manda em todo mundo'. Esse GPS central se chama **controlador**. Os switches ficam burrinhos: só obedecem. E a língua que eles usam para conversar é um protocolo chamado **OpenFlow**."
 
-**Pergunte:**
+**[PERGUNTE]**
+> "Qual a vantagem de ter um cérebro só mandando em tudo?"
 
-- *"O módulo cria uma VPC e eu preciso do ID dela no código principal. Como eu pego?"*
-  - **Resposta:** o módulo precisa ter um `output`, e eu uso `module.NOME.OUTPUT`. (Pergunta 9 do quiz.)
-- *"No bloco `module`, os argumentos como `cidr` são o quê, lá dentro do módulo?"*
-  - **Resposta:** `variable`. (Pergunta 8 do quiz.)
-- *"Posso usar o mesmo módulo duas vezes, com valores diferentes?"*
-  - **Resposta:** sim, e é exatamente essa a vantagem. Chame o bloco `module` duas vezes com nomes diferentes.
+**[RESPOSTA ESPERADA]** "Mais fácil de configurar", "muda tudo de uma vez", "programa a rede".
 
-**Se alguém perguntar "e módulos prontos?":** existem milhares no *Terraform Registry* (registry.terraform.io). A comunidade já fez módulo de VPC, EKS, RDS etc. Mas só use depois de entender o básico.
+**[FALE]**
+> "Isso. Eu mudo a regra num lugar só e ela vale para a rede inteira. E como o controlador é um programa, eu posso **programar a rede** com código. Por isso o nome: rede definida por software."
 
-### 060–075 · Workspaces (15 min)
+**[NO SITE]** role até o **Simulador** "Controlador SDN + tabela de fluxos".
 
-**Mostre:** a seção "Workspaces" (comandos à esquerda e cards à direita), e depois o console.
+**[FALE]**
+> "Vamos ver isso funcionando. Aqui em cima é o controlador. No meio, o switch s1. Embaixo, três computadores: h1, h2 e h3. Olhem a tabela de fluxos do switch: está vazia. O switch não sabe nada ainda."
 
-**Fale:**
+**[NO SITE]** deixe "De: h1, Para: h2" e clique em **Enviar pacote**. Leia o log em voz alta enquanto acontece.
 
-> "Beleza, o módulo resolveu a repetição. Mas ainda tenho um problema: se eu rodar `apply` na pasta de novo, ele diz que nada mudou, porque o **state** já tem a VPC. Como eu faço para ter uma VPC de dev **e** uma de prod usando exatamente o mesmo código?
->
-> Com **workspaces**. Um workspace é um **state separado**. O código é um só, mas cada workspace tem o seu próprio caderninho. Então o Terraform de dev não sabe o que existe em prod e vice-versa.
->
-> Todo projeto já nasce com um workspace chamado `default`. Daí eu crio outros com `workspace new`.
->
-> E tem um truque bonito: dentro do código eu posso usar `terraform.workspace`, que devolve o nome do workspace atual. Assim eu nomeio os recursos como `app-dev` e `app-prod` sem mudar uma linha."
+**[FALE]**
+> "Olhem o log: o h1 mandou o pacote, o switch procurou na tabela e... **TABLE MISS**. Não achou regra. Então ele mandou um **PACKET_IN** para o controlador, que é tipo 'chefe, chegou isso aqui, o que eu faço?'. O controlador pensou, viu que o h2 está na porta 2, e mandou um **FLOW_MOD**, que é 'instala essa regra aí'. Olhem a tabela: agora tem uma linha."
 
-**Pergunte (antes de abrir o console):**
+**[NO SITE]** clique em **Enviar pacote** de novo (mesmo h1 → h2).
 
-- *"Quando eu criar um workspace novo, ele vem com a infraestrutura do anterior?"*
-  - **Resposta:** não! Vem **vazio**. Esse é o ponto central, vamos provar no console.
+**[PERGUNTE]**
+> "E agora? O switch vai perguntar pro controlador de novo?"
 
-**Roteiro do console de workspaces:**
+**[RESPOSTA ESPERADA]** "Não, porque agora ele tem a regra."
 
-1. **`terraform init`** primeiro (o init vale para a pasta toda, não precisa repetir em cada workspace).
-2. **`terraform workspace show`** → mostra `default`.
-   - **Pergunte:** *"Eu nunca criei nada e já tem um workspace?"* → **Resposta:** sim, o `default` é automático.
-3. **`terraform apply`** no default. Aponte a tag `Name = app-default`.
-4. **`terraform workspace new dev`** → leia a mensagem: *"You're now on a new, empty workspace"*.
-5. **`terraform plan`** → ele quer criar tudo de novo (`Plan: 1 to add`) com `Name = app-dev`.
-   - **Pergunte:** *"Por que ele quer criar de novo, se já existe no default?"* → **Resposta:** porque o state do `dev` está vazio: ele não conhece a VPC do `default`.
-6. **`terraform apply`** → cria a VPC do dev (outro ID).
-7. **`terraform workspace list`** → mostra o `*` no atual.
-8. **`terraform workspace select default`** e depois **`terraform plan`** → "No changes". O default continua intacto.
+**[FALE]**
+> "Exatamente. **MATCH**. Ele achou a regra e mandou direto, sem incomodar o chefe. Olhem o contador de pacotes subindo. Isso é o plano de dados trabalhando sozinho."
 
-**Aviso importante (fale com calma):**
-
-> "Workspace **separa o state**, mas **não separa permissão nem conta**. Se alguém tem acesso ao projeto, tem acesso a todos os workspaces. Para ambientes que precisam de isolamento de verdade, as empresas costumam usar contas da AWS diferentes. Workspace é ótimo para ambientes parecidos e equipes pequenas."
-
-**Pergunte para fechar:**
-
-- *"Se eu estiver no workspace `prod`, qual vai ser o valor de `app-${terraform.workspace}`?"* → **Resposta:** `app-prod`. (Pergunta 12.)
+**[NO SITE]** mande h1 → h3. Mostre que gera outro PACKET_IN (regra nova). Depois clique em **Limpar tabela** e mande de novo para mostrar que volta a perguntar.
 
 ---
 
-## 075–085 · Intervalo (10 min)
+### 45 – 55 min · Quiz da Aula 1
 
-**Fale:**
+**[NO SITE]** clique em **Quiz** e no filtro **Aula 1**.
 
-> "Gente, 10 minutos de descanso. Quando voltarmos é a parte divertida: vamos montar um sistema de verdade, com site e banco de dados. Quem quiser, pode ficar brincando nos consoles, eles continuam abertos."
+**[FALE]**
+> "Hora do quiz! Vou ler a pergunta, vocês pensam e quando eu falar 'já', cada um levanta a mão com a letra: A, B, C ou D. Atenção: as alternativas mudam de lugar e não tem 'a maior é a certa', viu?"
 
-(Deixe o console da Aula 1 e 2 na tela, ou a Agenda.)
-
----
-
-## 085–120 · Aula 3: Laboratório, stack 2-tier (35 min)
-
-**Mostre:** vá para `#aula-3`.
-
-### 085–095 · A arquitetura (10 min)
-
-**Mostre:** o diagrama (Internet → VPC → subnet pública com EC2 / subnets privadas com RDS).
-
-**Fale:**
-
-> "Bem-vindos de volta! Agora vamos montar algo parecido com o que existe em empresas de verdade. Uma stack **2-tier**: *tier* quer dizer camada. Duas camadas:
->
-> 1. A camada de **aplicação**: um servidor (EC2) que recebe os acessos da internet.
-> 2. A camada de **dados**: um banco de dados (RDS) onde a aplicação guarda as informações.
->
-> Olhem o desenho. A internet só consegue chegar no servidor, pela porta 80. O banco fica escondido em **subnets privadas**, ou seja, não tem caminho vindo da internet até ele. A única porta que se abre para ele é a 5432 (PostgreSQL), e **só para o servidor**.
->
-> Pensem num restaurante: o garçom (servidor) atende o cliente, e a cozinha (banco) só conversa com o garçom. O cliente nunca entra na cozinha."
-
-**Pergunte:**
-
-- *"Por que não deixar o banco aberto para a internet, para facilitar o acesso?"*
-  - **Resposta:** segurança. Banco exposto é alvo de ataque. Menor privilégio: só quem precisa, acessa.
-- *"Quais são as duas camadas?"*
-  - **Resposta:** aplicação (EC2) e dados (RDS). (Cuidado: **não** é dev e prod. Pergunta 13.)
-
-**Explique rapidinho os termos novos** (sem se aprofundar):
-
-| Termo | Frase curta |
-|---|---|
-| **VPC** | Sua rede privada dentro da nuvem. |
-| **Subnet** | Uma fatia dessa rede. Pode ser pública ou privada. |
-| **Security Group** | O "porteiro": define quem pode entrar e por qual porta. |
-| **EC2** | Servidor virtual. |
-| **RDS** | Banco de dados gerenciado pela AWS. |
-
-### 095–105 · O código (10 min)
-
-**Mostre:** as abas `network.tf`, `security.tf`, `compute.tf`, `outputs.tf`.
-
-**Fale:**
-
-> "Não precisa decorar nada. Eu quero que vocês olhem para **uma coisa só** neste código: as **referências**.
->
-> Olhem a subnet, na aba `network.tf`: ela tem `vpc_id = aws_vpc.main.id`. Essa linha é o que liga uma coisa à outra.
->
-> E agora a pergunta que vale um café: o Terraform precisa criar a VPC **antes** da subnet, certo? Ninguém falou isso para ele em lugar nenhum. Então como ele sabe?"
-
-**Pergunte (dê 20 segundos para pensarem):**
-
-- *"Como o Terraform sabe a ordem de criação?"*
-  - **Respostas comuns erradas:** "pela ordem do arquivo", "alfabética". Não corrija ainda.
-  - **Resposta certa:** **pelas referências**. Cada vez que um recurso usa o `.id` de outro, o Terraform entende "este depende daquele" e monta um **grafo de dependências**. A ordem das linhas e dos arquivos **não importa**. (Pergunta 15.)
-
-**Depois mostre a aba `security.tf`:**
-
-> "O `sg-db` (o porteiro do banco) tem uma regra muito especial: `security_groups = [aws_security_group.web.id]`. Isso significa 'aceite conexões da porta 5432, mas **só de quem for do grupo sg-web**'. Não é um IP, é um grupo. É assim que o banco só aceita o servidor."
-
-**Pergunte:**
-
-- *"O que aconteceria se eu colocasse `0.0.0.0/0` na regra do banco?"*
-  - **Resposta:** qualquer pessoa da internet poderia tentar conectar. Péssima ideia. (Pergunta 14.)
-
-**Aba `outputs.tf`:** mostre o `sensitive = true` da senha e diga: "isso esconde a senha da tela, mas ela ainda vai parar no state, então nunca subam o state para o Git".
-
-### 105–120 · Console: subindo a stack (15 min)
-
-**Mostre:** o console da Aula 3.
-
-**Fale:**
-
-> "Vamos subir a stack inteira. Oito recursos. Olhem a ordem em que eles aparecem."
-
-**Roteiro do console:**
-
-1. **`terraform init`**.
-2. **`terraform plan`** → role até o final: `Plan: 8 to add`.
-   - **Pergunte:** *"Quantos recursos vão ser criados?"* → **Resposta:** 8.
-3. **`terraform apply`** → pause e **leia a ordem em voz alta**:
-   - primeiro `aws_vpc.main`;
-   - depois subnets e `sg-web` (todos precisam só da VPC, então vão juntos);
-   - depois `sg-db` (depende do `sg-web`);
-   - por último a instância e o banco.
-   - **Pergunte:** *"Por que a VPC veio primeiro e o banco por último?"* → **Resposta:** o banco depende de tudo (subnets e security group). É o grafo trabalhando.
-4. **Aponte os tempos:** a instância demorou ~24s e o banco ~187s. "Banco é lento para criar, e isso é normal na vida real."
-5. **`terraform output`** → mostre o IP público e o endereço do banco.
-6. **`terraform destroy`** → **mostre a ordem inversa**: o banco some antes da VPC.
-   - **Pergunte:** *"Por que a destruição é na ordem contrária?"* → **Resposta:** não dá para apagar a rede com o banco ainda dentro dela.
-
-**Fechamento (fale com ênfase):**
-
-> "Esse último comando é o mais importante da aula. Na vida real, **esqueceram o RDS ligado e chegou fatura na cobrança**. Sempre `terraform destroy` depois de um laboratório. É regra de ouro."
-
-**Pergunta bônus:** *"Qual comando eu uso para derrubar tudo?"* → **`terraform destroy`** (não existe `delete` nem `remove`). (Pergunta 16.)
+Como conduzir: leia a pergunta, conte até 10, peça a votação, clique na mais votada, depois **Confirmar**. Leia a explicação que aparece. Se muita gente errou, explique de novo com a analogia do GPS.
 
 ---
 
-## 120–145 · Quiz (25 min)
+### 55 – 65 min · Intervalo
 
-**Mostre:** vá para `#quiz`.
+**[FALE]**
+> "Bora fazer uma pausa de 10 minutos. Água, banheiro, café. Às [hora] em ponto a gente volta para falar de nuvem."
 
-**Como conduzir (16 perguntas, ~90 segundos cada):**
+**[NO SITE]** pause o cronômetro se quiser, ou deixe rodando.
 
-1. Leia a pergunta **em voz alta** (não deixe o aluno só clicar).
-2. Dê 10 a 15 segundos para pensarem.
-3. Pergunte *"Quem vai de A? Quem vai de B?"* e peça que uma pessoa defenda a escolha.
-4. Só então clique em **Confirmar resposta**.
-5. A explicação aparece. Leia e comente em uma frase.
+---
 
-> **Dica:** nas alternativas, a resposta certa **não é a maior** de propósito. Se alguém disser "fui na maior", brinque: *"essa estratégia não funciona aqui, hein"*.
+### 65 – 90 min · Aula 2: SDN em nuvem pública
 
-### Gabarito (só para você)
+**[NO SITE]** clique em **Aula 2** no menu.
 
-| # | Aula | Resposta | Por quê, em uma frase |
+**[PARA VOCÊ ENTENDER]**
+- Na nuvem pública (AWS, Azure, Google Cloud), **toda a rede é SDN**. Você não vê cabo nem switch. Você cria a rede por painel, linha de comando ou API, e o software do provedor programa a rede por baixo.
+- **VPC (Virtual Private Cloud):** sua rede privada e isolada dentro da nuvem. Você escolhe a faixa de IP, por exemplo `10.0.0.0/16`.
+- **Sub-rede (subnet):** um pedaço da VPC, por exemplo `10.0.1.0/24`.
+  - **Pública:** tem rota para a internet (via Internet Gateway). Ex: servidor web.
+  - **Privada:** não tem rota direta para a internet. Ex: banco de dados.
+- **Internet Gateway (IGW):** a porta da VPC para a internet. Sem ele, nada entra nem sai.
+- **NAT Gateway:** deixa máquinas da sub-rede privada **saírem** para a internet (baixar atualização), mas **não deixa ninguém de fora entrar**.
+- **Route Table:** tabela de rotas da sub-rede. A rota `0.0.0.0/0 → igw` significa "tudo que não é da VPC, manda para a internet".
+- **Security Group (SG):** firewall da instância (VM). É **stateful**: se deixou entrar, a resposta volta automaticamente. Só tem regras de **permitir**. O que não está liberado é bloqueado.
+- **Network ACL (NACL):** firewall da sub-rede inteira. É **stateless**: tem que liberar a ida e a volta. Tem regras de permitir e de negar.
+- **Nomes em cada nuvem:** AWS = VPC, Azure = **VNet**, Google = VPC. Security Group na Azure é **NSG**.
+
+**[FALE]**
+> "Bem-vindos de volta! Lembram do controlador SDN que manda nos switches? Agora vou contar um segredo: quando vocês criam uma rede na Amazon, na Microsoft ou no Google, vocês estão **usando SDN** sem perceber. Ninguém vai lá no datacenter passar cabo para vocês. Vocês clicam num botão, ou mandam um comando, e o software deles configura tudo. Vocês viram o 'controlador' da rede de vocês."
+
+**[PERGUNTE]**
+> "Se eu tenho uma empresa e coloco meus servidores na Amazon, vocês acham que os servidores de outra empresa conseguem ver os meus?"
+
+**[RESPOSTA ESPERADA]** "Não", "não deveria".
+
+**[FALE]**
+> "Não. E é por causa disso aqui: a **VPC**. É como se a Amazon fosse um prédio enorme e a VPC fosse o seu apartamento. Tem parede, tem porta, e só entra quem você deixa."
+
+**[NO SITE]** no diagrama, clique em **VPC 10.0.0.0/16** e leia a explicação. Depois clique em **Sub-rede pública** e **Sub-rede privada**.
+
+**[FALE]**
+> "Dentro do apartamento tem cômodos: as **sub-redes**. A sala, que recebe visita, é a sub-rede **pública**: é onde fica o servidor do site, que todo mundo acessa. O quarto, que ninguém de fora entra, é a sub-rede **privada**: é onde fica o banco de dados com os dados dos clientes."
+
+**[PERGUNTE]**
+> "Por que vocês acham que o banco de dados fica na parte privada e não na pública?"
+
+**[RESPOSTA ESPERADA]** "Por segurança", "para hacker não acessar".
+
+**[NO SITE]** clique em **Internet Gateway**, depois em **NAT Gateway**.
+
+**[FALE]**
+> "O **Internet Gateway** é a porta de entrada do apartamento. E o **NAT Gateway** é tipo uma portinha que só abre de dentro para fora. O banco de dados pode sair para baixar uma atualização, mas ninguém de fora consegue usar essa porta para entrar."
+
+**[NO SITE]** clique em **Route Table**.
+
+**[FALE]**
+> "E quem diz para onde cada pacote vai? A **Route Table**. Lembram do plano de controle? É isso aqui. Vocês configuram as rotas, e o plano de dados da nuvem obedece."
+
+**[NO SITE]** clique em **Security Group** e depois **Network ACL**.
+
+**[FALE]**
+> "E tem dois seguranças. O **Security Group** é o segurança na porta de cada servidor. Ele é **stateful**, que quer dizer 'tem memória': se ele deixou você entrar, ele lembra e deixa você sair. A **Network ACL** é o segurança da portaria do prédio, da sub-rede inteira. Ele é **stateless**, não tem memória: precisa de autorização para entrar e outra para sair."
+
+**[NO SITE]** role até a tabela "Mesmo conceito, nomes diferentes".
+
+**[FALE]**
+> "Cada nuvem dá um nome diferente para as mesmas coisas. Não precisa decorar tudo, mas guardem que na Azure a VPC se chama **VNet**. Isso cai muito."
+
+---
+
+### 90 – 100 min · Aula 2: CIDR e Security Group
+
+**[NO SITE]** role até a **Calculadora** "Quantos IPs cabem nessa rede?".
+
+**[PARA VOCÊ ENTENDER]**
+- **CIDR** é aquele número depois da barra: `10.0.1.0/24`.
+- O endereço IPv4 tem **32 bits**. O `/24` quer dizer que **24 bits são da rede**. Sobram 32 − 24 = **8 bits** para os hosts.
+- Quantidade de endereços = **2 elevado aos bits que sobram**: $$2^{32-24} = 2^8 = 256$$
+- `/16` → $$2^{16} = 65.536$$ endereços. `/28` → $$2^4 = 16$$ endereços.
+- **Regra de bolso:** quanto **maior** o número depois da barra, **menor** a rede.
+- Na AWS, **5 IPs de cada sub-rede são reservados** (rede, roteador, DNS, futuro uso e broadcast). Uma /24 dá 251 utilizáveis.
+
+**[FALE]**
+> "Quando vocês criam uma VPC, a nuvem pergunta: 'qual o tamanho da sua rede?'. E vocês respondem com esse número esquisito com barra, tipo /16 ou /24. Isso se chama **CIDR**. O IP tem 32 bits. O número depois da barra diz quantos bits são do 'nome da rede'. O que sobra é para os computadores."
+
+**[NO SITE]** com `10.0.1.0/24`, clique em **Calcular**. Mostre os 256.
+
+**[PERGUNTE]**
+> "Se /24 dá 256 endereços... vocês acham que /16 dá mais ou menos?"
+
+**[RESPOSTA ESPERADA]** confusão, provavelmente alguém diz "menos". 
+
+**[NO SITE]** digite `10.0.0.0/16` e calcule. Mostra 65.536.
+
+**[FALE]**
+> "Dá MUITO mais! 65 mil. Porque com /16, só 16 bits são da rede e sobram 16 bits para hosts. Regra de bolso: **número maior depois da barra, rede menor**. Testem aí: quanto dá /28?"
+
+**[NO SITE]** digite `10.0.1.0/28` → 16 endereços (11 utilizáveis na AWS).
+
+**[NO SITE]** role até o **Testador de Security Group**.
+
+**[FALE]**
+> "Agora vamos brincar de segurança. Aqui estão as regras de entrada do nosso servidor web. Repara: HTTPS liberado para todo mundo, HTTP também, SSH, que é o acesso remoto de administrador, só do IP do admin, e o MySQL, que é o banco, só de dentro da VPC."
+
+**[NO SITE]** teste nesta ordem, perguntando **antes** de clicar em "Testar conexão":
+
+| Teste | Pergunte antes | Resultado |
+|---|---|---|
+| Porta 443, usuário da internet | "Um usuário qualquer consegue abrir o site?" | PERMITIDO |
+| Porta 22, usuário da internet | "E esse mesmo usuário consegue entrar por SSH?" | NEGADO |
+| Porta 22, IP do administrador | "E o administrador?" | PERMITIDO |
+| Porta 3306, usuário da internet | "Um hacker consegue acessar o banco direto?" | NEGADO |
+| Porta 3389, qualquer um | "E a porta 3389, que é o RDP do Windows? Não tem regra nenhuma para ela..." | NEGADO (bloqueado por padrão) |
+
+**[NO SITE]** agora **ligue** a última regra (SSH para 0.0.0.0/0) e teste porta 22 com usuário da internet → PERMITIDO.
+
+**[FALE]**
+> "Olha o perigo: alguém, com preguiça, liberou SSH para 0.0.0.0/0, que é o mundo inteiro. Agora qualquer pessoa da internet pode tentar adivinhar a senha do servidor. Isso é um dos erros de segurança mais comuns na nuvem. **Nunca façam isso.**"
+
+---
+
+### 100 – 108 min · Quiz da Aula 2
+
+**[NO SITE]** **Quiz** → filtro **Aula 2**. Mesmo esquema de votação.
+
+---
+
+### 108 – 138 min · Aula 3: Laboratório Mininet
+
+**[NO SITE]** clique em **Aula 3** no menu.
+
+**[PARA VOCÊ ENTENDER]**
+- **Mininet** é um programa para Linux que cria uma rede inteira (hosts, switches, links e controlador) **dentro de um computador só**. Usado para estudar e testar SDN.
+- Os switches do Mininet são **Open vSwitch** e falam **OpenFlow** com o controlador.
+- Comando para criar a rede: `sudo mn` (precisa de `sudo` porque mexe na rede do sistema).
+- Topologias:
+  - `sudo mn` → padrão: 2 hosts e 1 switch.
+  - `--topo single,3` → 1 switch e 3 hosts.
+  - `--topo linear,4` → 4 switches em fila, 1 host em cada (4 hosts).
+  - `--topo tree,depth=2,fanout=2` → árvore. Hosts = fanout elevado a depth ($$2^2 = 4$$). Switches = 3.
+- Dentro do Mininet (prompt `mininet>`):
+  - `nodes` → lista os nós.
+  - `net` → mostra quem está ligado em quem.
+  - `dump` → mostra IP e processo de cada nó.
+  - `pingall` → todo mundo pinga todo mundo.
+  - `h1 ping -c 3 h2` → o h1 pinga o h2 três vezes.
+  - `h1 ifconfig` → roda o comando `ifconfig` **dentro** do h1.
+  - `link s1 h2 down` → derruba o cabo entre s1 e h2.
+  - `sh ovs-ofctl dump-flows s1` → mostra a tabela de fluxos do s1.
+  - `exit` → sai do Mininet.
+- `sudo mn -c` → limpa as sobras quando o Mininet trava.
+- `--controller=none` → cria a rede **sem controlador**. Os switches ficam sem regras e o ping falha 100%. Corrige com `sh ovs-ofctl add-flow s1 action=normal` (manda o switch se comportar como um switch comum).
+
+**[FALE]**
+> "Agora é hora de colocar a mão na massa. Para estudar SDN, a gente precisaria de switches, cabos, controlador... sai caro. Aí inventaram o **Mininet**: ele cria uma rede inteira, com vários computadores e switches, dentro de um único Linux. É tipo um 'The Sims' de rede.
+>
+> Normalmente a gente instala ele numa máquina virtual. Hoje, para não perder tempo com instalação, eu coloquei um **terminal simulado** aqui no site que responde igualzinho."
+
+**[NO SITE]** mostre os três cartões de topologia.
+
+**[PERGUNTE]**
+> "Se eu digitar `sudo mn --topo single,3`, quantos computadores e quantos switches vão aparecer?"
+
+**[RESPOSTA ESPERADA]** "3 computadores e 1 switch."
+
+**[NO SITE]** no terminal, clique no atalho `sudo mn --topo single,3` (ou digite).
+
+**[FALE]**
+> "Olhem o que ele fez: criou os hosts h1, h2 e h3, o switch s1, os links e o controlador c0. E o prompt mudou para `mininet>`. Agora estamos 'dentro' da rede."
+
+**[NO SITE]** rode `nodes` e depois `net`.
+
+**[FALE]**
+> "O `net` mostra os cabos: h1-eth0 está ligado no s1-eth1. Ou seja, a placa de rede do h1 está plugada na porta 1 do switch."
+
+**[NO SITE]** rode `sh ovs-ofctl dump-flows s1` **antes** do ping.
+
+**[PERGUNTE]**
+> "A tabela de fluxos está vazia. Lembram do simulador? Se eu fizer um ping agora, o que vocês acham que vai acontecer com o primeiro pacote?"
+
+**[RESPOSTA ESPERADA]** "Vai perguntar para o controlador."
+
+**[NO SITE]** rode `h1 ping -c 3 h2`.
+
+**[FALE]**
+> "Olhem o tempo: o **primeiro** pacote demorou alguns milissegundos e os outros foram quase zero. Por quê? Porque o primeiro teve que ir até o controlador perguntar! Depois que a regra foi instalada, os outros foram direto. É a teoria da Aula 1 acontecendo de verdade."
+
+**[NO SITE]** rode `sh ovs-ofctl dump-flows s1` de novo.
+
+**[FALE]**
+> "E agora tem regras na tabela. Estão vendo o `n_packets`? É o contador de quantos pacotes usaram cada regra."
+
+**[NO SITE]** rode `pingall`.
+
+**[FALE]**
+> "O `pingall` faz todo mundo pingar todo mundo. '0% dropped' quer dizer que nenhum pacote se perdeu. Rede funcionando."
+
+**Desafio 1 (quebre a rede)** — deixe os alunos dizerem o que acontece antes de rodar:
+
+**[NO SITE]** `link s1 h2 down` e depois `pingall`.
+
+**[PERGUNTE]**
+> "Derrubei o cabo do h2. Quem vai continuar se falando?"
+
+**[RESPOSTA ESPERADA]** "h1 e h3 continuam, o h2 fica isolado."
+
+**[NO SITE]** `link s1 h2 up` e `pingall` para mostrar que voltou.
+
+**Desafio 2 (rede sem cérebro):**
+
+**[NO SITE]** `exit`, depois `sudo mn --topo single,3 --controller=none`, depois `pingall`.
+
+**[PERGUNTE]**
+> "Criei a rede sem controlador. 100% dos pacotes foram perdidos. Por quê? Os cabos estão todos lá..."
+
+**[RESPOSTA ESPERADA]** "Porque não tem ninguém para dizer ao switch o que fazer."
+
+**[FALE]**
+> "Isso! O switch SDN é só plano de dados. Sem controlador e sem regras, ele não sabe para onde mandar nada e joga fora. Então vou fazer o papel do controlador **na mão**."
+
+**[NO SITE]** `sh ovs-ofctl add-flow s1 action=normal` e `pingall` → 0% dropped.
+
+**[FALE]**
+> "Eu instalei uma regra dizendo 'se comporte como um switch normal'. Pronto, funcionou. Eu fui o plano de controle. Isso é programar a rede."
+
+**Bônus (se sobrar tempo):**
+- `sh ovs-ofctl add-flow s1 "in_port=1,actions=drop"` e `pingall` → o h1 fica isolado. Pergunte: "Por que só o h1?" (Porque o h1 está na porta 1 e tudo que entra nela é descartado.)
+- `exit` e `sudo mn --topo tree,depth=2,fanout=2` → pergunte antes quantos hosts vão aparecer (4).
+- `sudo mn --topo linear,4` → depois `net` para mostrar os switches em fila.
+
+---
+
+### 138 – 145 min · Quiz da Aula 3
+
+**[NO SITE]** **Quiz** → filtro **Aula 3**.
+
+---
+
+### 145 – 150 min · Encerramento
+
+**[NO SITE]** volte para o topo.
+
+**[FALE]**
+> "Pessoal, vamos fechar. Se vocês forem levar só três coisas da aula de hoje, levem essas:
+>
+> 1. **Virtualização de rede** é transformar switch, roteador e firewall em software. O vSwitch liga coisas da mesma rede (MAC), o vRouter liga redes diferentes (IP).
+> 2. Toda rede tem um **plano de controle**, que decide, e um **plano de dados**, que executa. O **SDN** tira o plano de controle dos switches e coloca num controlador central, que programa a rede.
+> 3. A **nuvem pública é SDN**: VPC, sub-rede, route table e security group são todos configurados por software. E o **Mininet** deixa a gente testar tudo isso no próprio computador.
+>
+> Alguma dúvida? Valeu, pessoal, até a próxima!"
+
+**[PERGUNTA FINAL, OPCIONAL]**
+> "Em uma frase: qual a diferença entre plano de controle e plano de dados?"
+
+---
+
+## Gabarito do quiz
+
+> No site as alternativas aparecem embaralhadas. Aqui está o texto da resposta certa.
+
+### Aula 1
+| # | Pergunta | Resposta | Por quê |
 |---|---|---|---|
-| 1 | 1 | **B** · `terraform init` | Baixa os providers. Sem ele nada funciona. |
-| 2 | 1 | **A** · `aws_vpc.main.id` | Padrão tipo.nome.atributo. |
-| 3 | 1 | **D** · Nada: só calcula e mostra | O plan é só leitura. |
-| 4 | 1 | **B** · Diz com qual API e região conversar | Provider = tradutor. |
-| 5 | 1 | **D** · `terraform.tfstate` | É a memória do Terraform. |
-| 6 | 1 | **C** · No changes | Idempotência. |
-| 7 | 2 | **C** · Pasta com arquivos .tf reaproveitável | Módulo = função. |
-| 8 | 2 | **B** · `variable` | Argumentos do `module` viram variáveis. |
-| 9 | 2 | **D** · `module.rede.vpc_id` | De fora só se vê o que tem `output`. |
-| 10 | 2 | **B** · Um state separado | Mesmo código, states diferentes. |
-| 11 | 2 | **C** · `default` | Todo projeto nasce nele. |
-| 12 | 2 | **B** · `app-prod` | `terraform.workspace` devolve o nome. |
-| 13 | 3 | **C** · App web (EC2) e banco (RDS) | 2-tier = aplicação + dados. |
-| 14 | 3 | **B** · Só do SG da aplicação | Menor privilégio. |
-| 15 | 3 | **A** · Pelas referências | Grafo de dependências. |
-| 16 | 3 | **D** · `terraform destroy` | Derruba tudo e evita cobrança. |
+| 1 | Qual plano DECIDE o caminho? | Plano de controle | Ele calcula rotas e monta as tabelas. |
+| 2 | Consulta a tabela e encaminha em ns | Plano de dados | É o que executa, rápido, sem pensar. |
+| 3 | O que é o br0 no `ovs-vsctl show`? | Um switch virtual | No OVS, Bridge = switch virtual. |
+| 4 | Função principal do vRouter | Ligar redes IP diferentes | Camada 3. |
+| 5 | vSwitch encaminha com base em | Endereço MAC | Camada 2. |
+| 6 | Pacote para 10.0.0.3 com regra só para .2 | Não casa; vai ao controlador | Table miss → PACKET_IN. |
+| 7 | O que o SDN tira do switch? | O plano de controle | Vai para o controlador central. |
+| 8 | 1º ping 8 ms, os outros 0,1 ms | O 1º consultou o controlador | Depois a regra já estava instalada. |
 
-### Perguntas onde mais gente costuma errar (prepare-se)
+### Aula 2
+| # | Pergunta | Resposta | Por quê |
+|---|---|---|---|
+| 9 | O que é VPC? | Rede privada isolada na nuvem | Virtual Private Cloud. |
+| 10 | Endereços em /24 | 256 | 2^8. Na AWS, 251 utilizáveis. |
+| 11 | Route table com 0.0.0.0/0 → igw | Pública | Tem rota para o Internet Gateway. |
+| 12 | Banco privado baixar atualização | NAT Gateway | Só saída, sem entrada. |
+| 13 | Precisa de regra de saída no SG? | Não, ele é stateful | A resposta volta sozinha. |
+| 14 | Porta 22 para 0.0.0.0/0 | SSH aberto ao mundo | Qualquer um tenta entrar. |
+| 15 | VPC na Azure | VNet | VCN é da Oracle. |
+| 16 | Por que a nuvem é SDN? | É configurada por API | O software do provedor programa a rede. |
 
-- **Pergunta 3** (plan): muita gente acha que o `plan` "cria com confirmação". Volte ao console e rode o plan de novo: "olhem, nada foi criado".
-- **Pergunta 6** (segundo apply): se errarem, rode no console da Aula 1 e mostre o `No changes`.
-- **Pergunta 9** (module output): a pegadinha é achar que os nomes de dentro do módulo são visíveis de fora. Reforce: **caixa fechada**.
-- **Pergunta 11** (workspace default): muita gente chuta `main`. É a "pegadinha de Git".
-
-### Se sobrar tempo
-
-Peça para os alunos refazerem o quiz (botão **Refazer o quiz** na tela final) em duplas, e vença quem fizer mais pontos.
-
----
-
-## 145–150 · Encerramento
-
-**Mostre:** o topo do site.
-
-**Fale:**
-
-> "Pessoal, fechando. Hoje vocês saíram de zero e já sabem: **escrever** infraestrutura em HCL; usar **providers** para falar com a nuvem; seguir o ciclo **init, plan, apply**; **reaproveitar** código com módulos; **separar ambientes** com workspaces; e montar uma **stack 2-tier** com rede, servidor e banco.
->
-> Se vocês guardarem só **uma** frase, que seja esta: *'Terraform é declarativo: eu descrevo o que quero, ele descobre como fazer.'*
->
-> Para casa: peguem o código da Aula 3 e tentem **mudar o tamanho do servidor** de `t3.micro` para `t3.small`, rodem o `plan` e vejam o que ele diz que vai mudar. Se conseguirem explicar o resultado do plan, vocês entenderam de verdade.
->
-> Obrigado pela participação de vocês. Bom descanso!"
+### Aula 3
+| # | Pergunta | Resposta | Por quê |
+|---|---|---|---|
+| 17 | `--topo single,3` | 3 hosts e 1 switch | 1 switch central. |
+| 18 | `--topo linear,4` | 4 switches e 4 hosts | Um host por switch. |
+| 19 | `tree,depth=2,fanout=3` | 9 hosts | 3^2 = 9. |
+| 20 | Testar todos com todos | pingall | |
+| 21 | 100% dropped sem controlador | Switch sem regras de fluxo | Resolve com add-flow action=normal. |
+| 22 | `ovs-ofctl dump-flows s1` | A tabela de fluxos do s1 | |
+| 23 | `in_port=1,actions=drop` | Descarta o que entra na porta 1 | A porta continua ligada. |
+| 24 | Limpar sobras do Mininet | `-c` | `sudo mn -c`. |
+| 25 | `link s1 h2 down` + pingall | Só h2 fica isolado | h1 e h3 continuam pelo s1. |
 
 ---
 
-## Plano B: "e se eu travar?"
+## Perguntas difíceis que os alunos podem fazer
 
-| Situação | O que fazer |
-|---|---|
-| Um aluno pergunta algo que você não sabe | "Ótima pergunta. Eu não sei a resposta de cabeça. Vou pesquisar e trazer na próxima aula." Anote o nome da pergunta. Ninguém vai te julgar por isso. |
-| Estou atrasado | Pule o roteiro 6 e 7 do console da Aula 1 (state list e destroy) e encurte o intervalo para 5 minutos. |
-| Estou adiantado | Peça para os alunos tentarem **quebrar** o console: digitar comandos errados, criar workspaces repetidos, etc. |
-| O site não abre | O conteúdo é estático. Recarregue a página. Se persistir, use o roteiro acima falando e desenhando no quadro. |
-| Um aluno pergunta "isso funciona na AWS de verdade?" | Sim. O código das abas é código Terraform real. O simulador só imita a saída dos comandos. Para rodar de verdade é preciso uma conta AWS e as credenciais configuradas. |
-| "Qual a diferença entre Terraform e CloudFormation?" | CloudFormation é só da AWS. Terraform funciona em várias nuvens com a mesma sintaxe. |
-| "E o OpenTofu?" | É um *fork* de código aberto do Terraform, com comandos quase idênticos. Tudo o que vimos funciona nele. |
+**"SDN e virtualização de rede são a mesma coisa?"**
+Não. Virtualização de rede é transformar equipamentos em software (vSwitch, vRouter). SDN é a ideia de **separar** o plano de controle e centralizar num controlador. Eles andam juntos, mas dá para ter um sem o outro.
+
+**"E se o controlador cair?"**
+Ótima pergunta. As regras que já estão instaladas continuam funcionando, mas pacotes novos sem regra não vão ter para quem perguntar. Por isso, em produção, usam **vários controladores** (redundância).
+
+**"OpenFlow é a mesma coisa que SDN?"**
+Não. SDN é a arquitetura (a ideia). OpenFlow é **um** dos protocolos que o controlador usa para falar com os switches. É o mais famoso, mas não o único.
+
+**"Quais são exemplos de controlador SDN?"**
+OpenDaylight, ONOS, Ryu, POX e Floodlight. O Mininet já vem com um controlador simples de referência.
+
+**"Isso cai em prova de certificação?"**
+Sim. VPC, sub-rede pública/privada, NAT, Security Group stateful vs. NACL stateless e CIDR caem muito na **AWS Cloud Practitioner** e **AWS Solutions Architect**. SDN e planos de controle/dados caem na **Cisco CCNA**.
+
+**"O Mininet funciona no Windows?"**
+Não diretamente. Precisa de Linux. O jeito mais fácil é baixar a máquina virtual pronta do Mininet (mininet.org) e abrir no VirtualBox.
 
 ---
 
-## Estrutura do projeto (para referência)
+## Estrutura dos arquivos
 
 ```
-app/page.tsx            página única com todas as seções
-components/aula-1.tsx   conteúdo da Aula 1
-components/aula-2.tsx   conteúdo da Aula 2
-components/aula-3.tsx   conteúdo da Aula 3
-components/console-sim.tsx  simulador de terminal
-components/quiz.tsx     quiz interativo
-lib/scenarios.ts        lógica dos comandos simulados
-lib/questions.ts        perguntas e respostas do quiz
+public/
+├── index.html        # página da aula
+├── css/style.css     # estilos
+└── js/
+    ├── main.js       # cronômetro, agenda, simulador SDN, VPC, CIDR, Security Group
+    ├── terminal.js   # terminal Mininet simulado
+    └── quiz.js       # perguntas do quiz (a 1ª alternativa de cada uma é a correta)
 ```
 
-Para trocar uma pergunta do quiz, edite `lib/questions.ts`. Para trocar o que um comando mostra no console, edite `lib/scenarios.ts`.
+Para editar uma pergunta do quiz, abra `public/js/quiz.js`. Em cada pergunta, a **primeira** opção da lista é a correta; o site embaralha na hora de mostrar.
